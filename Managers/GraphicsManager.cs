@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using TurnBasedStrategy.IO;
+using StrategyGame.IO;
+using StrategyGame.Media;
 
-namespace TurnBasedStrategy.Managers
+namespace StrategyGame.Managers
 {
     public static class GraphicsManager
     {
@@ -23,6 +24,14 @@ namespace TurnBasedStrategy.Managers
             go.Bounds = position;
             if (go is Button button)
                 button.Label.Bounds = go.Bounds;
+        }
+
+        public static void DrawGameObjectBorder(SpriteBatch sb, GameObject go)
+        {
+            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X + go.Bounds.Width, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y + go.Bounds.Height, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
         }
 
     }

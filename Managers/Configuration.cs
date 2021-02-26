@@ -1,18 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TurnBasedStrategy.Media;
+using StrategyGame.Media;
 
-namespace TurnBasedStrategy.Managers
+namespace StrategyGame.Managers
 {
     public static class Configuration
     {
         public static bool GameIsRunning { get; set; } = false;
+        public static bool DebugColorMode { get; set; } = false;
         public static bool WindowInFocus { get; set; } = true;
 
         public static int TileWidth { get; private set; } = 50;
         public static int TileHeight { get; private set; } = 50;
-        public static int GridWidth { get; private set; } = 20;
-        public static int GridHeight { get; private set; } = 12;
+        public static int GridColumns { get; private set; } = 16;
+        public static int GridRows { get; private set; } = 9;
+        public static int GridWidth { get; } = TileWidth * GridColumns;
+        public static int GridHeight { get; } = TileHeight * GridRows;
         public static int BorderWidth { get; private set; } = 1;
 
         public static Color TextureColor { get; private set; } = Color.White;
@@ -21,7 +24,8 @@ namespace TurnBasedStrategy.Managers
         public static Color Highlight { get; private set; } = Color.White;
         public static Color TextColor { get; internal set; } = Color.White;
 
-        public static Texture2D MenuTexture { get; set; } = Scene.Empty;
+        public static Texture2D BlackTexture { get; set; } = Scene.Empty;
+        public static Texture2D DebugTexture { get; set; } = Scene.TestPink;
         public static Texture2D LabelTexture { get; set; } = Scene.Empty;
 
 

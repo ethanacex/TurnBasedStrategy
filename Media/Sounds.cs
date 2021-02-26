@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
-using TurnBasedStrategy.Managers;
+using StrategyGame.Managers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TurnBasedStrategy.Media
+namespace StrategyGame.Media
 {
     public class Sounds
     {

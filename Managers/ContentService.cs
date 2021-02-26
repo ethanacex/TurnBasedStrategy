@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 
-namespace TurnBasedStrategy.Managers
+namespace StrategyGame.Managers
 {
     public sealed class ContentService
     {

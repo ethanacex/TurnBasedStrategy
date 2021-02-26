@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using TurnBasedStrategy.IO;
-using TurnBasedStrategy.Managers;
+using StrategyGame.IO;
+using StrategyGame.Managers;
+using StrategyGame.Media;
 
-namespace TurnBasedStrategy
+namespace StrategyGame.GUI
 {
     public class Tile : GameObject
     {
@@ -15,11 +16,11 @@ namespace TurnBasedStrategy
         private Color fill;
         public Color[] PixelInfo { get; set; }
 
-        public Tile(Point position, Texture2D border)
+        public Tile(Point position)
         {
             Bounds = new Rectangle(position.X, position.Y, Configuration.TileWidth, Configuration.TileHeight);
             fill = Configuration.TileColor;
-            this.border = border;
+            border = Scene.Empty;
             //SetColor(border);
         }
 
@@ -41,12 +42,7 @@ namespace TurnBasedStrategy
         public override void Draw(SpriteBatch sb)
         {
             if (Configuration.ToggleBorder)
-            {
-                sb.Draw(border, new Rectangle(Bounds.X, Bounds.Y, Configuration.BorderWidth, Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
-                sb.Draw(border, new Rectangle(Bounds.X, Bounds.Y, Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
-                sb.Draw(border, new Rectangle(Bounds.X + Bounds.Width, Bounds.Y, Configuration.BorderWidth, Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
-                sb.Draw(border, new Rectangle(Bounds.X, Bounds.Y + Bounds.Height, Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
-            }
+                GraphicsManager.DrawGameObjectBorder(sb, this);
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using TurnBasedStrategy.Media;
-using TurnBasedStrategy.Screens;
-using TurnBasedStrategy;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StrategyGame.Media;
+using StrategyGame.Screens;
 
-namespace TurnBasedStrategy.Managers
+namespace StrategyGame.Managers
 {
     partial class ScreenManager
     {
@@ -32,13 +31,28 @@ namespace TurnBasedStrategy.Managers
         public void PopScreen()
         {
             screens.Pop();
-            currentScreen = screens.Peek();
+            if (screens.Count > 0)
+                currentScreen = screens.Peek();
+            else
+                game.Exit();
+        }
+
+        public void RemoveAllScreens()
+        {
+            while (screens.Count > 0)
+                screens.Pop();
         }
 
         public void PreviousScreen(object sender, EventArgs e)
         {
-            screens.Pop();
-            currentScreen = screens.Peek();
+            PopScreen();
+        }
+
+        public void Menu()
+        {
+            currentScreen = new MenuScreen();
+            PushScreen(currentScreen);
+            currentScreen.Initialize(this);
         }
 
         public void Options(object sender, EventArgs args)
@@ -50,28 +64,35 @@ namespace TurnBasedStrategy.Managers
 
         public void NewGame(object source, EventArgs args)
         {
-            currentScreen = new GameScreen();
-            PushScreen(currentScreen);
-            currentScreen.Initialize(this);
-        }
-
-        public void EnableDisableScene(object sender, EventArgs e)
-        {
-            if (Configuration.MenuTexture == Scene.Empty)
+            if (Configuration.GameIsRunning)
             {
-                Configuration.MenuTexture = Scene.TestPink;
+                while (screens.Count > 1)
+                    screens.Pop();
+                currentScreen = screens.Peek();
             }
             else
             {
-                Configuration.MenuTexture = Scene.Empty;
+                RemoveAllScreens();
+                currentScreen = new GameScreen();
+                PushScreen(currentScreen);
+                currentScreen.Initialize(this);
+                Configuration.GameIsRunning = true;
+                Debug.WriteLine("GameRunning: " + Configuration.GameIsRunning);
             }
-            //foreach (var screen in screens)
-            //{
-            //    if (screen.Background.Name == Scene.TestPink.Name)
-            //        screen.Background = Scene.Empty;
-            //    else
-            //        screen.Background = Scene.TestPink;
-            //}
+        }
+
+        public void ToggleDebug(object sender, EventArgs e)
+        {
+            if (!Configuration.DebugColorMode)
+            {
+                Configuration.BlackTexture = Configuration.DebugTexture;
+                Configuration.DebugColorMode = !Configuration.DebugColorMode;
+            }
+            else
+            {
+                Configuration.BlackTexture = Scene.Empty;
+                Configuration.DebugColorMode = !Configuration.DebugColorMode;
+            }
         }
 
         public void ExitGame(object source, EventArgs args)

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TurnBasedStrategy.Media;
-using TurnBasedStrategy.IO;
-using TurnBasedStrategy.Screens;
+using StrategyGame.Media;
+using StrategyGame.IO;
+using StrategyGame.Screens;
 
-namespace TurnBasedStrategy.Managers
+namespace StrategyGame.Managers
 {
     class OptionsScreen : IScreen
     {
@@ -26,7 +26,7 @@ namespace TurnBasedStrategy.Managers
             GraphicsManager.CenterGameObjectOnScreen(screenTitle);
 
             backButton.ButtonPressed += screenManager.PreviousScreen;
-            debugButton.ButtonPressed += screenManager.EnableDisableScene;
+            debugButton.ButtonPressed += screenManager.ToggleDebug;
 
             debugButton.OnHover = Sounds.OnMenuHover;
             debugButton.OnClick = Sounds.MenuForward;
@@ -43,7 +43,7 @@ namespace TurnBasedStrategy.Managers
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(Configuration.MenuTexture, GraphicsManager.Viewport.Bounds, Color.White);
+            spriteBatch.Draw(Configuration.BlackTexture, GraphicsManager.Viewport.Bounds, Color.White);
             debugButton.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
             screenTitle.Draw(spriteBatch);

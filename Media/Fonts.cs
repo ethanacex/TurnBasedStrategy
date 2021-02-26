@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TurnBasedStrategy.Managers;
+using StrategyGame.Managers;
 
-namespace TurnBasedStrategy.Media
+namespace StrategyGame.Media
 {
     public class Fonts
     {

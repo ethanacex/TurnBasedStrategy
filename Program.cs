@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TurnBasedStrategy
+namespace StrategyGame
 {
     public static class Program
     {

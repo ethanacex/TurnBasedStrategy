@@ -1,26 +1,31 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using TurnBasedStrategy.IO;
-using TurnBasedStrategy.Media;
-using TurnBasedStrategy.Managers;
+using StrategyGame.IO;
+using StrategyGame.Media;
+using StrategyGame.Managers;
 
-namespace TurnBasedStrategy
+namespace StrategyGame.GUI
 {
     public class Grid : GameObject
     {
         public Tile[,] Tiles { get; private set; }
 
-        public Grid(int columns, int rows, Texture2D scene)
+        public void Initialize(Texture2D levelScene)
         {
-            Point location;
-            Tiles = new Tile[columns, rows];
+            Point gridPosition = new Point(50, 50);
+            Point gridSize = new Point(Configuration.GridWidth, Configuration.GridHeight);
 
-            for (int x = 0; x < columns; x++)
-                for (int y = 0; y < rows; y++)
+            Bounds = new Rectangle(gridPosition, gridSize);
+            Tiles = new Tile[Configuration.GridColumns, Configuration.GridRows];
+
+            Point tilePosition;
+
+            for (int x = 0; x < Configuration.GridColumns; x++)
+                for (int y = 0; y < Configuration.GridRows; y++)
                 {
-                    location = new Point(x * Configuration.TileWidth, y * Configuration.TileHeight);
-                    Tiles[x, y] = new Tile(location, Scene.Empty);
+                    tilePosition = new Point(Bounds.X + (x * Configuration.TileWidth), Bounds.Y + (y * Configuration.TileHeight));
+                    Tiles[x, y] = new Tile(tilePosition);
                 }
         }
 

@@ -1,11 +1,11 @@
-﻿using TurnBasedStrategy.Managers;
+﻿using StrategyGame.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using TurnBasedStrategy.Media;
-using TurnBasedStrategy.Screens;
+using StrategyGame.Screens;
+using System.Diagnostics;
 
-namespace TurnBasedStrategy
+namespace StrategyGame
 {
     public class StrategyGame : Game
     {
@@ -39,10 +39,9 @@ namespace TurnBasedStrategy
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             Input.Update();
+            if (Input.KeyIsPressed(Keys.Escape) && Configuration.GameIsRunning)
+                screenManager.Menu();
             screenManager.Update(gameTime);
             base.Update(gameTime);
         }
