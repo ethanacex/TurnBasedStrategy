@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using TurnBasedStrategy.Managers;
+using StrategyGame.Managers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TurnBasedStrategy.Media
+namespace StrategyGame.Media
 {
     public static class Scene
     {

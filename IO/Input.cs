@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace TurnBasedStrategy
+namespace StrategyGame
 {
     public class Input
     {
@@ -40,6 +40,11 @@ namespace TurnBasedStrategy
         public static bool RightButtonClicked()
         {
             return ButtonIsPressed(CurrentMouseState.RightButton) && !ButtonIsPressed(PreviousMouseState.RightButton);
+        }
+
+        public static bool KeyIsPressed(Keys key)
+        {
+            return CurrentKeyboardState.IsKeyDown(key) && !PreviousKeyboardState.IsKeyDown(key);
         }
 
     }

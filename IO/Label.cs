@@ -1,9 +1,9 @@
-﻿using TurnBasedStrategy.Managers;
+﻿using StrategyGame.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TurnBasedStrategy.Media;
+using StrategyGame.Media;
 
-namespace TurnBasedStrategy.IO
+namespace StrategyGame.IO
 {
     public class Label : GameObject
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
-using TurnBasedStrategy.Managers;
+using StrategyGame.Managers;
 using System;
 
-namespace TurnBasedStrategy.IO
+namespace StrategyGame.IO
 {
     public class Button : GameObject
     {

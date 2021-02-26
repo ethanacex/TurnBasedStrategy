@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TurnBasedStrategy.Media;
-using TurnBasedStrategy.IO;
-using TurnBasedStrategy.Managers;
+using StrategyGame.Media;
+using StrategyGame.IO;
+using StrategyGame.Managers;
 
-namespace TurnBasedStrategy.Screens
+namespace StrategyGame.Screens
 {
     class MenuScreen : IScreen
     {
@@ -47,7 +47,7 @@ namespace TurnBasedStrategy.Screens
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(Configuration.MenuTexture, GraphicsManager.Viewport.Bounds, Color.White);
+            spriteBatch.Draw(Configuration.BlackTexture, GraphicsManager.Viewport.Bounds, Color.White);
             newGameBtn.Draw(spriteBatch);
             optionsBtn.Draw(spriteBatch);
             exitGameBtn.Draw(spriteBatch);

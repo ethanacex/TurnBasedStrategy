@@ -1,9 +1,9 @@
-﻿using TurnBasedStrategy.Managers;
+﻿using StrategyGame.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TurnBasedStrategy.Managers;
+using StrategyGame.Managers;
 
-namespace TurnBasedStrategy.Screens
+namespace StrategyGame.Screens
 {
     interface IScreen
     {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TurnBasedStrategy.IO
+namespace StrategyGame.IO
 {
     public abstract class GameObject
     {
