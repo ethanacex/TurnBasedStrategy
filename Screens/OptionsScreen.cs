@@ -43,7 +43,7 @@ namespace StrategyGame.Managers
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(Configuration.BackdropTexture, GraphicsManager.Viewport.Bounds, Color.White);
+            spriteBatch.Draw(GameState.Backdrop, GraphicsManager.Viewport.Bounds, Color.White);
             debugButton.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
             screenTitle.Draw(spriteBatch);
@@ -52,7 +52,7 @@ namespace StrategyGame.Managers
 
         public Button AddButton(string title, int x, int y)
         {
-            return new Button(title, x, y, Textures.Empty); ;
+            return new Button(title, x, y, Textures.Empty);
         }
 
         public Button AddButtonCenter(string title, int x, int y)

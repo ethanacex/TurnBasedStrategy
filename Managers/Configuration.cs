@@ -15,15 +15,12 @@ namespace StrategyGame.Managers
         public static int GridHeight { get; } = TileHeight * GridRows;
         public static int BorderWidth { get; private set; } = 1;
 
+        public static Point GridPosition { get; set; } = new Point(50, 50);
         public static Color TextureColor { get; private set; } = Color.White;
         public static Color BorderColor { get; set; } = Color.Black;
         public static Color TileColor { get; private set; } = Color.White;
         public static Color Highlight { get; private set; } = Color.White;
         public static Color TextColor { get; internal set; } = Color.White;
-
-        public static Texture2D BackdropTexture { get; set; } = Textures.Empty;
-        public static Texture2D DebugTexture { get; set; } = Textures.TestPink;
-        public static Texture2D LabelTexture { get; set; } = Textures.Empty;
 
     }
 }

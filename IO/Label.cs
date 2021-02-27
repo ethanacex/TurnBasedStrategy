@@ -15,9 +15,19 @@ namespace StrategyGame.IO
         public Label(string body, Vector2 position)
         {
             Body = body;
-            Font = Fonts.FixedSys;
+            Font = Fonts.MenuFont;
             Color = Configuration.TextColor;
-            Texture = Configuration.LabelTexture;
+            Texture = Textures.Empty;
+
+            Bounds = new Rectangle(position.ToPoint(), Font.MeasureString(Body).ToPoint());
+        }
+
+        public Label(string body, Vector2 position, SpriteFont font, Color color)
+        {
+            Body = body;
+            Font = font;
+            Color = color;
+            Texture = Textures.Empty;
 
             Bounds = new Rectangle(position.ToPoint(), Font.MeasureString(Body).ToPoint());
         }

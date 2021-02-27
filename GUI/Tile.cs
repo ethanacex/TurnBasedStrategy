@@ -41,8 +41,8 @@ namespace StrategyGame.GUI
 
         public override void Draw(SpriteBatch sb)
         {
-            if (GameState.ToggleBorder)
-                GraphicsManager.DrawGameObjectBorder(sb, this);
+            if (GameState.ToggleGridLines)
+                GraphicsManager.DrawGameObjectBorder(sb, this, Configuration.BorderWidth, Configuration.BorderColor);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StrategyGame.Media;
 using System;
 
 namespace StrategyGame.Managers
@@ -9,7 +11,7 @@ namespace StrategyGame.Managers
         private static bool gameIsRunning = false;
         private static bool debugMode = false;
         private static bool windowInFocus = true;
-        private static bool toggleBorder = true;
+        private static bool toggleGridLines = true;
 
         public static event EventHandler<EventArgs> MainMenuHandler;
         public static event EventHandler<EventArgs> GameIsRunningHandler;
@@ -40,9 +42,13 @@ namespace StrategyGame.Managers
             }
             set
             {
-                gameIsRunning = value;
-                if (GameIsRunningHandler != null)
-                    GameIsRunningHandler(gameIsRunning, EventArgs.Empty);
+                if (gameIsRunning != value)
+                {
+                    gameIsRunning = value;
+                    if (GameIsRunningHandler != null)
+                        GameIsRunningHandler(gameIsRunning, EventArgs.Empty);
+                }
+
             }
         }
         public static bool DebugColorMode
@@ -53,9 +59,17 @@ namespace StrategyGame.Managers
             }
             set
             {
-                debugMode = value;
-                if (DebugModeHandler != null)
-                    DebugModeHandler(debugMode, EventArgs.Empty);
+                if (debugMode != value)
+                {
+                    debugMode = value;
+                    if (DebugModeHandler != null)
+                        DebugModeHandler(debugMode, EventArgs.Empty);
+                    if (debugMode)
+                        Backdrop = Textures.TestPink;
+                    else
+                        Backdrop = Textures.Empty;
+                }
+
             }
         }
         public static bool WindowInFocus
@@ -66,21 +80,27 @@ namespace StrategyGame.Managers
             }
             set
             {
-                windowInFocus = value;
-                if (WindowInFocusHandler != null)
-                    WindowInFocusHandler(windowInFocus, EventArgs.Empty);
+                if (windowInFocus != value)
+                {
+                    windowInFocus = value;
+                    if (WindowInFocusHandler != null)
+                        WindowInFocusHandler(windowInFocus, EventArgs.Empty);
+                }
             }
         }
-
-
-        public static bool ToggleBorder
+        public static bool ToggleGridLines
         {
-            get { return toggleBorder; }
+            get { return toggleGridLines; }
             set
             {
-                toggleBorder = value;
-                Configuration.BorderColor = toggleBorder ? Color.Black : Color.Transparent;
+                if (toggleGridLines != value)
+                {
+                    toggleGridLines = value;
+                    Configuration.BorderColor = toggleGridLines ? Color.Black : Color.Transparent;
+                }
             }
         }
+
+        public static Texture2D Backdrop { get; set; } = Textures.Empty;
     }
 }

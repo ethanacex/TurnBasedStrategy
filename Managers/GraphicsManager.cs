@@ -9,12 +9,30 @@ namespace StrategyGame.Managers
 {
     public static class GraphicsManager
     {
+        private static GraphicsDevice Graphics { get; } = ContentService.Instance.Graphics;
         public static Viewport Viewport { get; } = ContentService.Instance.Graphics.Viewport;
+
+        public static Texture2D GetTextureOfColor(Color color)
+        {
+            Texture2D texture = new Texture2D(Graphics, 1, 1, false, SurfaceFormat.Color);
+            texture.SetData(new Color[] { color });
+            return texture;
+        }
+
+        public static void SetGameObjectColor(GameObject go, Color color)
+        {
+            go.Texture = GetTextureOfColor(color);
+        }
 
         public static Point GetLabelDimensions(Label label)
         {
             Vector2 dimensions = label.Font.MeasureString(label.Body);
-            return new Point((int)dimensions.X, (int)dimensions.Y);
+            return dimensions.ToPoint();
+        }
+
+        public static Point GetLabelDimensions(string text)
+        {
+            return GetLabelDimensions(new Label(text, new Vector2(0, 0)));
         }
 
         public static void CenterGameObjectX(GameObject go)
@@ -35,13 +53,16 @@ namespace StrategyGame.Managers
             return position;
         }
 
-        public static void DrawGameObjectBorder(SpriteBatch sb, GameObject go)
+        public static void DrawGameObjectBorder(SpriteBatch sb, GameObject go, int lineWidth, Color color)
         {
-            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X + go.Bounds.Width, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y + go.Bounds.Height, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
+            Texture2D texture = GetTextureOfColor(color);
+            sb.Draw(texture, new Rectangle(go.Bounds.X, go.Bounds.Y, lineWidth, go.Bounds.Height + lineWidth), color);
+            sb.Draw(texture, new Rectangle(go.Bounds.X, go.Bounds.Y, go.Bounds.Width + lineWidth, lineWidth), color);
+            sb.Draw(texture, new Rectangle(go.Bounds.X + go.Bounds.Width, go.Bounds.Y, lineWidth, go.Bounds.Height + lineWidth), color);
+            sb.Draw(texture, new Rectangle(go.Bounds.X, go.Bounds.Y + go.Bounds.Height, go.Bounds.Width + lineWidth, lineWidth), color);
         }
+
+
 
     }
 }

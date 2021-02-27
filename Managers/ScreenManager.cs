@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StrategyGame.Media;
 using StrategyGame.Screens;
 
 namespace StrategyGame.Managers
@@ -93,16 +91,7 @@ namespace StrategyGame.Managers
 
         public void ToggleDebug(object sender, EventArgs e)
         {
-            if (!GameState.DebugColorMode)
-            {
-                Configuration.BackdropTexture = Configuration.DebugTexture;
-                GameState.DebugColorMode = !GameState.DebugColorMode;
-            }
-            else
-            {
-                Configuration.BackdropTexture = Textures.Empty;
-                GameState.DebugColorMode = !GameState.DebugColorMode;
-            }
+            GameState.DebugColorMode = !GameState.DebugColorMode;
         }
 
         public void ExitGame(object source, EventArgs args)
