@@ -40,7 +40,7 @@ namespace StrategyGame
         protected override void Update(GameTime gameTime)
         {
             Input.Update();
-            if (Input.KeyIsPressed(Keys.Escape) && Configuration.GameIsRunning)
+            if (Input.KeyIsPressed(Keys.Escape) && GameState.GameIsRunning)
                 screenManager.Menu();
             screenManager.Update(gameTime);
             base.Update(gameTime);

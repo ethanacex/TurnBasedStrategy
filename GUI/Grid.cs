@@ -41,7 +41,7 @@ namespace StrategyGame.GUI
                 tile.Draw(sb);
         }
 
-        public void ToggleVisibleBorder() => Configuration.ToggleBorder = !Configuration.ToggleBorder;
+        public void ToggleVisibleBorder() => GameState.ToggleBorder = !GameState.ToggleBorder;
 
         private bool MouseOnGrid()
         {

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using StrategyGame.Media;
 using System.Collections.Generic;
 
 namespace StrategyGame.Managers
@@ -39,8 +40,10 @@ namespace StrategyGame.Managers
             Texture2D empty = _content.Load<Texture2D>("emptyblack");
             Texture2D test = _content.Load<Texture2D>("test");
             Texture2D red = _content.Load<Texture2D>("testred");
+            Texture2D logo = _content.Load<Texture2D>("logo");
             Textures.Add("Test", test);
             Textures.Add("TestRed", red);
+            Textures.Add("Logo", logo);
             Textures.Add("EmptyBlack", empty);
 
             SoundEffect menuHover = _content.Load<SoundEffect>("menuHover");
@@ -49,7 +52,11 @@ namespace StrategyGame.Managers
             SFX.Add("MenuHover", menuHover);
             SFX.Add("MenuForward", menuFoward);
             SFX.Add("MenuBack", menuBack);
-            
+
+            Song menuMusic = _content.Load<Song>("superSuspense");
+            Music.Add("MenuTheme", menuMusic);
+
+            GameState.MainMenuHandler += Audio.MenuMusic;
         }
 
         public static ContentService Instance

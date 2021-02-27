@@ -3,14 +3,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using StrategyGame.Managers;
 using System;
+using StrategyGame.GUI;
 
 namespace StrategyGame.IO
 {
     public class Button : GameObject
     {
         public Label Label { get; set; }
-        public SoundEffect OnHover { get; set; }
-        public SoundEffect OnClick { get; set; }
+        public SoundEffect Hover { get; set; }
+        public SoundEffect Click { get; set; }
 
         public event EventHandler<EventArgs> ButtonPressed;
 
@@ -21,23 +22,23 @@ namespace StrategyGame.IO
             Texture = texture;
         }
 
-        public void OnHoverSound()
+        public void HoverSound()
         {
-            if (Configuration.WindowInFocus)
+            if (GameState.WindowInFocus)
             {
-                if (OnHover != null)
-                    OnHover.Play();
+                if (Hover != null)
+                    Hover.Play();
             }
         }
 
         public virtual void OnButtonPressed()
         {
-            if (Configuration.WindowInFocus)
+            if (GameState.WindowInFocus)
             {
                 if (ButtonPressed != null)
                     ButtonPressed(this, EventArgs.Empty);
-                if (OnClick != null)
-                    OnClick.Play();
+                if (Click != null)
+                    Click.Play();
             }
         }
 
@@ -62,7 +63,7 @@ namespace StrategyGame.IO
 
                 if (!Bounds.Contains(Input.PreviousMousePosition))
                 {
-                    OnHoverSound();
+                    HoverSound();
                 }
                 if (Input.LeftButtonClicked())
                 {

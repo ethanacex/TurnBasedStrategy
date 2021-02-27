@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StrategyGame.Media;
+using StrategyGame.GUI;
 
 namespace StrategyGame.IO
 {

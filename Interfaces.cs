@@ -1,7 +1,6 @@
 ﻿using StrategyGame.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StrategyGame.Managers;
 
 namespace StrategyGame.Screens
 {

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using StrategyGame.IO;
 using StrategyGame.Media;
+using StrategyGame.GUI;
 
 namespace StrategyGame.Managers
 {
@@ -16,7 +17,7 @@ namespace StrategyGame.Managers
             return new Point((int)dimensions.X, (int)dimensions.Y);
         }
 
-        public static void CenterGameObjectOnScreen(GameObject go)
+        public static void CenterGameObjectX(GameObject go)
         {
             int width = go.Bounds.Width;
             Rectangle position = go.Bounds;
@@ -26,12 +27,20 @@ namespace StrategyGame.Managers
                 button.Label.Bounds = go.Bounds;
         }
 
+        public static Rectangle GetCenterXRegion(Rectangle bounds)
+        {
+            int width = bounds.Width;
+            Rectangle position = bounds;
+            position.X = Viewport.Bounds.Center.X - (width / 2);
+            return position;
+        }
+
         public static void DrawGameObjectBorder(SpriteBatch sb, GameObject go)
         {
-            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X + go.Bounds.Width, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y + go.Bounds.Height, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X + go.Bounds.Width, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y + go.Bounds.Height, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
         }
 
     }
