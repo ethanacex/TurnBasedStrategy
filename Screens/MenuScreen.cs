@@ -9,6 +9,7 @@ namespace StrategyGame.Screens
     class MenuScreen : IScreen
     {
         ScreenManager screenManager;
+        Rectangle logoPosition;
 
         Button newGameBtn;
         Button optionsBtn;
@@ -19,6 +20,8 @@ namespace StrategyGame.Screens
             this.screenManager = screenManager;
 
             Point viewCenter = GraphicsManager.Viewport.Bounds.Center;
+            logoPosition = GraphicsManager.GetCenterXRegion(Textures.Logo.Bounds);
+            logoPosition.Y += 180;
 
             newGameBtn = AddButtonCenter("New Game", viewCenter.X, viewCenter.Y - 25);
             optionsBtn = AddButtonCenter("Options", viewCenter.X, viewCenter.Y + 50);
@@ -48,7 +51,7 @@ namespace StrategyGame.Screens
         {
             spriteBatch.Begin();
             spriteBatch.Draw(Configuration.BackdropTexture, GraphicsManager.Viewport.Bounds, Color.White);
-            spriteBatch.Draw(Textures.Logo, new Rectangle(0, 0, Textures.Logo.Width, Textures.Logo.Height), Configuration.TextureColor);
+            spriteBatch.Draw(Textures.Logo, logoPosition, Configuration.TextureColor);
             newGameBtn.Draw(spriteBatch);
             optionsBtn.Draw(spriteBatch);
             exitGameBtn.Draw(spriteBatch);
@@ -63,7 +66,7 @@ namespace StrategyGame.Screens
         public Button AddButtonCenter(string title, int x, int y)
         {
             Button button = AddButton(title, x, y);
-            GraphicsManager.CenterGameObjectOnScreen(button);
+            GraphicsManager.CenterGameObjectX(button);
             return button;
         }
 

@@ -23,7 +23,7 @@ namespace StrategyGame.Managers
             backButton = AddButtonCenter("Back", viewCenter.X, viewCenter.Y);
             screenTitle = new Label("Options Menu", new Vector2(viewCenter.X, viewCenter.Y - 200));
 
-            GraphicsManager.CenterGameObjectOnScreen(screenTitle);
+            GraphicsManager.CenterGameObjectX(screenTitle);
 
             backButton.ButtonPressed += screenManager.PreviousScreen;
             debugButton.ButtonPressed += screenManager.ToggleDebug;
@@ -58,7 +58,7 @@ namespace StrategyGame.Managers
         public Button AddButtonCenter(string title, int x, int y)
         {
             Button button = AddButton(title, x, y);
-            GraphicsManager.CenterGameObjectOnScreen(button);
+            GraphicsManager.CenterGameObjectX(button);
             return button;
         }
 
