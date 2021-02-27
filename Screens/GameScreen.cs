@@ -24,7 +24,7 @@ namespace StrategyGame.Screens
             this.screenManager = screenManager;
 
             grid = new Grid();
-            grid.Initialize(Scene.Empty);
+            grid.Initialize(Textures.Empty);
             
             inspectorPanel = new Panel(new Point(grid.Bounds.Right, 0), new Point(GraphicsManager.Viewport.Width - grid.Bounds.Width, GraphicsManager.Viewport.Height));
             statusPanel = new Panel(new Point(grid.Bounds.Left, 0), new Point(GraphicsManager.Viewport.Width - inspectorPanel.Bounds.Width, 0 + grid.Bounds.Top));

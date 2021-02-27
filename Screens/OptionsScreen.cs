@@ -28,10 +28,10 @@ namespace StrategyGame.Managers
             backButton.ButtonPressed += screenManager.PreviousScreen;
             debugButton.ButtonPressed += screenManager.ToggleDebug;
 
-            debugButton.OnHover = Sounds.OnMenuHover;
-            debugButton.OnClick = Sounds.MenuForward;
-            backButton.OnHover = Sounds.OnMenuHover;
-            backButton.OnClick = Sounds.MenuBack;
+            debugButton.Hover = Audio.OnMenuHover;
+            debugButton.Click = Audio.MenuForward;
+            backButton.Hover = Audio.OnMenuHover;
+            backButton.Click = Audio.MenuBack;
         }
 
         public void Update(GameTime gameTime)
@@ -43,7 +43,7 @@ namespace StrategyGame.Managers
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(Configuration.BlackTexture, GraphicsManager.Viewport.Bounds, Color.White);
+            spriteBatch.Draw(Configuration.BackdropTexture, GraphicsManager.Viewport.Bounds, Color.White);
             debugButton.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
             screenTitle.Draw(spriteBatch);
@@ -52,7 +52,7 @@ namespace StrategyGame.Managers
 
         public Button AddButton(string title, int x, int y)
         {
-            return new Button(title, x, y, Scene.Empty); ;
+            return new Button(title, x, y, Textures.Empty); ;
         }
 
         public Button AddButtonCenter(string title, int x, int y)

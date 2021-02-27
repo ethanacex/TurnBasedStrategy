@@ -12,17 +12,17 @@ namespace StrategyGame.GUI
         public Panel(Point location, Point size)
         {
             Bounds = new Rectangle(location, size);
-            Texture = Configuration.BlackTexture;
+            Texture = Configuration.BackdropTexture;
         }
 
         public override void Draw(SpriteBatch sb)
         {
             // Draw the panel bounding box
-            if (Configuration.ToggleBorder)
+            if (GameState.ToggleBorder)
                 GraphicsManager.DrawGameObjectBorder(sb, this);
 
             // Draw all subsequent items on panel
-            sb.Draw(Configuration.BlackTexture, Bounds, Configuration.TextureColor);
+            sb.Draw(Configuration.BackdropTexture, Bounds, Configuration.TextureColor);
         }
 
         public override void Update(GameTime gameTime)

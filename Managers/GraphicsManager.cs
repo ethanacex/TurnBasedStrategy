@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using StrategyGame.IO;
 using StrategyGame.Media;
+using StrategyGame.GUI;
 
 namespace StrategyGame.Managers
 {
@@ -28,10 +29,10 @@ namespace StrategyGame.Managers
 
         public static void DrawGameObjectBorder(SpriteBatch sb, GameObject go)
         {
-            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X + go.Bounds.Width, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
-            sb.Draw(Scene.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y + go.Bounds.Height, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X + go.Bounds.Width, go.Bounds.Y, Configuration.BorderWidth, go.Bounds.Height + Configuration.BorderWidth), Configuration.BorderColor);
+            sb.Draw(Textures.Empty, new Rectangle(go.Bounds.X, go.Bounds.Y + go.Bounds.Height, go.Bounds.Width + Configuration.BorderWidth, Configuration.BorderWidth), Configuration.BorderColor);
         }
 
     }

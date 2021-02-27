@@ -20,7 +20,7 @@ namespace StrategyGame.GUI
         {
             Bounds = new Rectangle(position.X, position.Y, Configuration.TileWidth, Configuration.TileHeight);
             fill = Configuration.TileColor;
-            border = Scene.Empty;
+            border = Textures.Empty;
             //SetColor(border);
         }
 
@@ -41,7 +41,7 @@ namespace StrategyGame.GUI
 
         public override void Draw(SpriteBatch sb)
         {
-            if (Configuration.ToggleBorder)
+            if (GameState.ToggleBorder)
                 GraphicsManager.DrawGameObjectBorder(sb, this);
         }
     }

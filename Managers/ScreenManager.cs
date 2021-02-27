@@ -18,9 +18,21 @@ namespace StrategyGame.Managers
         {
             this.game = game;
             screens = new Stack<IScreen>();
-            currentScreen = startScreen;
+            SetCurrentScreen(startScreen);
             PushScreen(currentScreen);
             currentScreen.Initialize(this);
+        }
+
+        private void SetCurrentScreen(IScreen startScreen)
+        {
+            currentScreen = startScreen;
+            if (currentScreen is GameScreen)
+            {
+                GameState.IsOnMenuScreen = false;
+                GameState.GameIsRunning = true;
+            }
+            else
+                GameState.IsOnMenuScreen = true;
         }
 
         public void PushScreen(IScreen screen)
@@ -32,7 +44,7 @@ namespace StrategyGame.Managers
         {
             screens.Pop();
             if (screens.Count > 0)
-                currentScreen = screens.Peek();
+                SetCurrentScreen(screens.Peek());
             else
                 game.Exit();
         }
@@ -50,48 +62,46 @@ namespace StrategyGame.Managers
 
         public void Menu()
         {
-            currentScreen = new MenuScreen();
+            SetCurrentScreen(new MenuScreen());
             PushScreen(currentScreen);
             currentScreen.Initialize(this);
         }
 
         public void Options(object sender, EventArgs args)
         {
-            currentScreen = new OptionsScreen();
+            SetCurrentScreen(new OptionsScreen());
             PushScreen(currentScreen);
             currentScreen.Initialize(this);
         }
 
         public void NewGame(object source, EventArgs args)
         {
-            if (Configuration.GameIsRunning)
+            if (GameState.GameIsRunning)
             {
                 while (screens.Count > 1)
                     screens.Pop();
-                currentScreen = screens.Peek();
+                SetCurrentScreen(screens.Peek());
             }
             else
             {
                 RemoveAllScreens();
-                currentScreen = new GameScreen();
+                SetCurrentScreen(new GameScreen());
                 PushScreen(currentScreen);
                 currentScreen.Initialize(this);
-                Configuration.GameIsRunning = true;
-                Debug.WriteLine("GameRunning: " + Configuration.GameIsRunning);
             }
         }
 
         public void ToggleDebug(object sender, EventArgs e)
         {
-            if (!Configuration.DebugColorMode)
+            if (!GameState.DebugColorMode)
             {
-                Configuration.BlackTexture = Configuration.DebugTexture;
-                Configuration.DebugColorMode = !Configuration.DebugColorMode;
+                Configuration.BackdropTexture = Configuration.DebugTexture;
+                GameState.DebugColorMode = !GameState.DebugColorMode;
             }
             else
             {
-                Configuration.BlackTexture = Scene.Empty;
-                Configuration.DebugColorMode = !Configuration.DebugColorMode;
+                Configuration.BackdropTexture = Textures.Empty;
+                GameState.DebugColorMode = !GameState.DebugColorMode;
             }
         }
 
@@ -109,11 +119,11 @@ namespace StrategyGame.Managers
         {
             if (game.IsActive)
             {
-                Configuration.WindowInFocus = true;
+                GameState.WindowInFocus = true;
                 currentScreen.Update(gameTime);
             }
             else
-                Configuration.WindowInFocus = false;
+                GameState.WindowInFocus = false;
         }
 
     }
