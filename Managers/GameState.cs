@@ -10,6 +10,7 @@ namespace StrategyGame.Managers
         private static bool onMainMenu = false;
         private static bool gameIsRunning = false;
         private static bool debugMode = false;
+        private static bool allowAudio = true;
         private static bool windowInFocus = true;
         private static bool toggleGridLines = true;
 
@@ -17,6 +18,7 @@ namespace StrategyGame.Managers
         public static event EventHandler<EventArgs> GameIsRunningHandler;
         public static event EventHandler<EventArgs> DebugModeHandler;
         public static event EventHandler<EventArgs> WindowInFocusHandler;
+        public static event EventHandler<EventArgs> AllowAudioHandler;
 
         public static bool IsOnMenuScreen { 
             get
@@ -71,6 +73,23 @@ namespace StrategyGame.Managers
                 }
 
             }
+        }
+        public static bool ToggleAudio
+        {
+            get
+            {
+                return allowAudio;
+            }
+            set
+            {
+                if (allowAudio != value)
+                {
+                    allowAudio = value;
+                    if (AllowAudioHandler != null)
+                        AllowAudioHandler(allowAudio, EventArgs.Empty);
+                }
+            }
+
         }
         public static bool WindowInFocus
         {

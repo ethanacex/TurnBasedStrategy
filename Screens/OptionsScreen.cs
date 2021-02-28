@@ -12,6 +12,7 @@ namespace StrategyGame.Managers
         Label screenTitle;
         Button debugButton;
         Button backButton;
+        Button musicButton;
 
         public void Initialize(ScreenManager screenManager)
         {
@@ -20,6 +21,7 @@ namespace StrategyGame.Managers
             Point viewCenter = GraphicsManager.Viewport.Bounds.Center;
 
             debugButton = AddButtonCenter("Toggle Debug", viewCenter.X, viewCenter.Y - 75);
+            musicButton = AddButtonCenter("Toggle Music", viewCenter.X, viewCenter.Y - 125);
             backButton = AddButtonCenter("Back", viewCenter.X, viewCenter.Y);
             screenTitle = new Label("Options Menu", new Vector2(viewCenter.X, viewCenter.Y - 200));
 
@@ -27,17 +29,21 @@ namespace StrategyGame.Managers
 
             backButton.ButtonPressed += screenManager.PreviousScreen;
             debugButton.ButtonPressed += screenManager.ToggleDebug;
+            musicButton.ButtonPressed += screenManager.ToggleMusic;
 
             debugButton.Hover = Audio.OnMenuHover;
             debugButton.Click = Audio.MenuForward;
             backButton.Hover = Audio.OnMenuHover;
             backButton.Click = Audio.MenuBack;
+            musicButton.Hover = Audio.OnMenuHover;
+            musicButton.Click = Audio.MenuBack;
         }
 
         public void Update(GameTime gameTime)
         {
             debugButton.Update(gameTime);
             backButton.Update(gameTime);
+            musicButton.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -47,6 +53,7 @@ namespace StrategyGame.Managers
             debugButton.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
             screenTitle.Draw(spriteBatch);
+            musicButton.Draw(spriteBatch);
             spriteBatch.End();
         }
 

@@ -61,6 +61,7 @@ namespace StrategyGame.Managers
             Music.Add("MenuTheme", menuMusic);
 
             GameState.MainMenuHandler += Audio.MenuMusic;
+            GameState.AllowAudioHandler += Audio.ToggleAudio;
         }
 
         public static ContentService Instance
