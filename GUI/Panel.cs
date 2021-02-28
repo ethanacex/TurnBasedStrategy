@@ -11,8 +11,8 @@ namespace StrategyGame.GUI
         public Panel(Point location, Point size)
         {
             Bounds = new Rectangle(location, size);
-            borderColor = Color.Transparent;
-            BorderWidth = 0;
+            borderColor = Settings.BorderColor;
+            BorderWidth = 1;
         }
 
         public void SetBorder(int width, Color color)
