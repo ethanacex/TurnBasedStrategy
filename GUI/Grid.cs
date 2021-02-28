@@ -13,17 +13,17 @@ namespace StrategyGame.GUI
 
         public void Initialize(Texture2D levelScene)
         {
-            Point gridSize = new Point(Configuration.GridWidth, Configuration.GridHeight);
+            Point gridSize = new Point(Settings.GridWidth, Settings.GridHeight);
 
-            Bounds = new Rectangle(Configuration.GridPosition, gridSize);
-            Tiles = new Tile[Configuration.GridColumns, Configuration.GridRows];
+            Bounds = new Rectangle(Settings.GridPosition, gridSize);
+            Tiles = new Tile[Settings.GridColumns, Settings.GridRows];
 
             Point tilePosition;
 
-            for (int x = 0; x < Configuration.GridColumns; x++)
-                for (int y = 0; y < Configuration.GridRows; y++)
+            for (int x = 0; x < Settings.GridColumns; x++)
+                for (int y = 0; y < Settings.GridRows; y++)
                 {
-                    tilePosition = new Point(Bounds.X + (x * Configuration.TileWidth), Bounds.Y + (y * Configuration.TileHeight));
+                    tilePosition = new Point(Bounds.X + (x * Settings.TileWidth), Bounds.Y + (y * Settings.TileHeight));
                     Tiles[x, y] = new Tile(tilePosition);
                 }
         }

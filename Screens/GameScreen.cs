@@ -37,9 +37,9 @@ namespace StrategyGame.Screens
 
             // Get the rendered font height so we can position the grid below it
             Point labelDimensions = GraphicsManager.GetLabelDimensions("Units: 10");
-            Point gridPosition = Configuration.GridPosition;
+            Point gridPosition = Settings.GridPosition;
             gridPosition.Y = labelDimensions.Y;
-            Configuration.GridPosition = gridPosition;
+            Settings.GridPosition = gridPosition;
 
             // Initialize Grid
             gameGrid = new Grid();

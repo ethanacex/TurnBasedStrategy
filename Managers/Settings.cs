@@ -5,7 +5,7 @@ using System;
 
 namespace StrategyGame.Managers
 {
-    public static class Configuration
+    public static class Settings
     {
         public static int TileWidth { get; private set; } = 50;
         public static int TileHeight { get; private set; } = 50;

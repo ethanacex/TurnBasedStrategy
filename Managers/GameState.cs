@@ -96,7 +96,7 @@ namespace StrategyGame.Managers
                 if (toggleGridLines != value)
                 {
                     toggleGridLines = value;
-                    Configuration.BorderColor = toggleGridLines ? Color.Black : Color.Transparent;
+                    Settings.BorderColor = toggleGridLines ? Color.Black : Color.Transparent;
                 }
             }
         }

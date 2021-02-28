@@ -51,8 +51,8 @@ namespace StrategyGame.Screens
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(GameState.Backdrop, GraphicsManager.Viewport.Bounds, Configuration.TextureColor);
-            spriteBatch.Draw(Textures.Logo, logoPosition, Configuration.TextureColor);
+            spriteBatch.Draw(GameState.Backdrop, GraphicsManager.Viewport.Bounds, Settings.TextureColor);
+            spriteBatch.Draw(Textures.Logo, logoPosition, Settings.TextureColor);
             newGameBtn.Draw(spriteBatch);
             optionsBtn.Draw(spriteBatch);
             exitGameBtn.Draw(spriteBatch);

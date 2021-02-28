@@ -18,8 +18,8 @@ namespace StrategyGame.GUI
 
         public Tile(Point position)
         {
-            Bounds = new Rectangle(position.X, position.Y, Configuration.TileWidth, Configuration.TileHeight);
-            fill = Configuration.TileColor;
+            Bounds = new Rectangle(position.X, position.Y, Settings.TileWidth, Settings.TileHeight);
+            fill = Settings.TileColor;
             border = Textures.Empty;
             //SetColor(border);
         }
@@ -42,7 +42,7 @@ namespace StrategyGame.GUI
         public override void Draw(SpriteBatch sb)
         {
             if (GameState.ToggleGridLines)
-                GraphicsManager.DrawGameObjectBorder(sb, this, Configuration.BorderWidth, Configuration.BorderColor);
+                GraphicsManager.DrawGameObjectBorder(sb, this, Settings.BorderWidth, Settings.BorderColor);
         }
     }
 }
