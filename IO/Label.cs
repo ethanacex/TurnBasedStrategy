@@ -15,9 +15,19 @@ namespace StrategyGame.IO
         public Label(string body, Vector2 position)
         {
             Body = body;
-            Font = Fonts.FixedSys;
-            Color = Configuration.TextColor;
-            Texture = Configuration.LabelTexture;
+            Font = Fonts.MenuFont;
+            Color = Settings.TextColor;
+            Texture = Textures.Empty;
+
+            Bounds = new Rectangle(position.ToPoint(), Font.MeasureString(Body).ToPoint());
+        }
+
+        public Label(string body, Vector2 position, SpriteFont font, Color color)
+        {
+            Body = body;
+            Font = font;
+            Color = color;
+            Texture = Textures.Empty;
 
             Bounds = new Rectangle(position.ToPoint(), Font.MeasureString(Body).ToPoint());
         }
@@ -34,7 +44,7 @@ namespace StrategyGame.IO
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(Texture, Bounds, Configuration.TextureColor);
+            sb.Draw(Texture, Bounds, Settings.TextureColor);
             sb.DrawString(Font, Body, Bounds.Location.ToVector2(), Color);
         }
     }

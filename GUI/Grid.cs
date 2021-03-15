@@ -13,18 +13,17 @@ namespace StrategyGame.GUI
 
         public void Initialize(Texture2D levelScene)
         {
-            Point gridPosition = new Point(50, 50);
-            Point gridSize = new Point(Configuration.GridWidth, Configuration.GridHeight);
+            Point gridSize = new Point(Settings.GridWidth, Settings.GridHeight);
 
-            Bounds = new Rectangle(gridPosition, gridSize);
-            Tiles = new Tile[Configuration.GridColumns, Configuration.GridRows];
+            Bounds = new Rectangle(Settings.GridPosition, gridSize);
+            Tiles = new Tile[Settings.GridColumns, Settings.GridRows];
 
             Point tilePosition;
 
-            for (int x = 0; x < Configuration.GridColumns; x++)
-                for (int y = 0; y < Configuration.GridRows; y++)
+            for (int x = 0; x < Settings.GridColumns; x++)
+                for (int y = 0; y < Settings.GridRows; y++)
                 {
-                    tilePosition = new Point(Bounds.X + (x * Configuration.TileWidth), Bounds.Y + (y * Configuration.TileHeight));
+                    tilePosition = new Point(Bounds.X + (x * Settings.TileWidth), Bounds.Y + (y * Settings.TileHeight));
                     Tiles[x, y] = new Tile(tilePosition);
                 }
         }
@@ -41,7 +40,7 @@ namespace StrategyGame.GUI
                 tile.Draw(sb);
         }
 
-        public void ToggleVisibleBorder() => GameState.ToggleBorder = !GameState.ToggleBorder;
+        public void ToggleVisibleBorder() => GameState.ToggleGridLines = !GameState.ToggleGridLines;
 
         private bool MouseOnGrid()
         {

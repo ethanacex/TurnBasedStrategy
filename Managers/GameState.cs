@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StrategyGame.Media;
 using System;
 
 namespace StrategyGame.Managers
@@ -8,13 +10,21 @@ namespace StrategyGame.Managers
         private static bool onMainMenu = false;
         private static bool gameIsRunning = false;
         private static bool debugMode = false;
+        private static bool allowAudio = true;
         private static bool windowInFocus = true;
-        private static bool toggleBorder = true;
+        private static bool toggleGridLines = true;
+        private static bool isFullScreen = false;
+        private static bool isLowRes = false;
+        private static bool isHighRes = false;
 
         public static event EventHandler<EventArgs> MainMenuHandler;
         public static event EventHandler<EventArgs> GameIsRunningHandler;
         public static event EventHandler<EventArgs> DebugModeHandler;
         public static event EventHandler<EventArgs> WindowInFocusHandler;
+        public static event EventHandler<EventArgs> AllowAudioHandler;
+        public static event EventHandler<EventArgs> FullscreenEventHandler;
+        public static event EventHandler<EventArgs> LowResEventHandler;
+        public static event EventHandler<EventArgs> HighResEventHandler;
 
         public static bool IsOnMenuScreen { 
             get
@@ -40,9 +50,13 @@ namespace StrategyGame.Managers
             }
             set
             {
-                gameIsRunning = value;
-                if (GameIsRunningHandler != null)
-                    GameIsRunningHandler(gameIsRunning, EventArgs.Empty);
+                if (gameIsRunning != value)
+                {
+                    gameIsRunning = value;
+                    if (GameIsRunningHandler != null)
+                        GameIsRunningHandler(gameIsRunning, EventArgs.Empty);
+                }
+
             }
         }
         public static bool DebugColorMode
@@ -53,10 +67,42 @@ namespace StrategyGame.Managers
             }
             set
             {
-                debugMode = value;
-                if (DebugModeHandler != null)
-                    DebugModeHandler(debugMode, EventArgs.Empty);
+                if (debugMode != value)
+                {
+                    debugMode = value;
+                    if (DebugModeHandler != null)
+                        DebugModeHandler(debugMode, EventArgs.Empty);
+                    if (debugMode)
+                    {
+                        Settings.BackdropColor = Color.Pink;
+                        Settings.GraphicsDeviceColor = Color.CornflowerBlue;
+                    }
+                    else
+                    {
+                        Settings.BackdropColor = Color.Black;
+                        Settings.GraphicsDeviceColor = Color.Black;
+                    }
+                        
+                }
+
             }
+        }
+        public static bool ToggleAudio
+        {
+            get
+            {
+                return allowAudio;
+            }
+            set
+            {
+                if (allowAudio != value)
+                {
+                    allowAudio = value;
+                    if (AllowAudioHandler != null)
+                        AllowAudioHandler(allowAudio, EventArgs.Empty);
+                }
+            }
+
         }
         public static bool WindowInFocus
         {
@@ -66,20 +112,65 @@ namespace StrategyGame.Managers
             }
             set
             {
-                windowInFocus = value;
-                if (WindowInFocusHandler != null)
-                    WindowInFocusHandler(windowInFocus, EventArgs.Empty);
+                if (windowInFocus != value)
+                {
+                    windowInFocus = value;
+                    if (WindowInFocusHandler != null)
+                        WindowInFocusHandler(windowInFocus, EventArgs.Empty);
+                }
+            }
+        }
+        public static bool ToggleGridLines
+        {
+            get { return toggleGridLines; }
+            set
+            {
+                if (toggleGridLines != value)
+                {
+                    toggleGridLines = value;
+                    Settings.BorderColor = toggleGridLines ? Color.Black : Color.Transparent;
+                }
+            }
+        }
+        public static bool ToggleFullScreen
+        {
+            get { return isFullScreen; }
+            set
+            {
+                if (isFullScreen != value)
+                {
+                    isFullScreen = value;
+                    if (FullscreenEventHandler != null)
+                        FullscreenEventHandler(isFullScreen, EventArgs.Empty);
+                }
             }
         }
 
-
-        public static bool ToggleBorder
+        public static bool ToggleHighRes
         {
-            get { return toggleBorder; }
+            get { return isHighRes; }
             set
             {
-                toggleBorder = value;
-                Configuration.BorderColor = toggleBorder ? Color.Black : Color.Transparent;
+                if (isHighRes != value)
+                {
+                    isHighRes = value;
+                    if (HighResEventHandler != null)
+                        HighResEventHandler(isHighRes, EventArgs.Empty);
+                }
+            }
+        }
+
+        public static bool ToggleLowRes
+        {
+            get { return isLowRes; }
+            set
+            {
+                if (isLowRes != value)
+                {
+                    isLowRes = value;
+                    if (LowResEventHandler != null)
+                        LowResEventHandler(isLowRes, EventArgs.Empty);
+                }
             }
         }
     }

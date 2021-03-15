@@ -19,17 +19,18 @@ namespace StrategyGame.Screens
         {
             this.screenManager = screenManager;
 
-            Point viewCenter = GraphicsManager.Viewport.Bounds.Center;
-            logoPosition = GraphicsManager.GetCenterXRegion(Textures.Logo.Bounds);
-            logoPosition.Y += 180;
+            Point screenCenter = GraphicsManager.Viewport.Bounds.Center;
 
-            newGameBtn = AddButtonCenter("New Game", viewCenter.X, viewCenter.Y - 25);
-            optionsBtn = AddButtonCenter("Options", viewCenter.X, viewCenter.Y + 50);
-            exitGameBtn = AddButtonCenter("Exit", viewCenter.X, viewCenter.Y + 125);
+            newGameBtn = CreateCenterAlignedButton("New Game", screenCenter.X, screenCenter.Y - 25);
+            optionsBtn = CreateCenterAlignedButton("Options", screenCenter.X, screenCenter.Y + 50);
+            exitGameBtn = CreateCenterAlignedButton("Exit", screenCenter.X, screenCenter.Y + 125);
 
-            newGameBtn.ButtonPressed += screenManager.NewGame;
-            optionsBtn.ButtonPressed += screenManager.Options;
-            exitGameBtn.ButtonPressed += screenManager.ExitGame;
+            logoPosition = GraphicsManager.GetCenterXDrawableRegion(Textures.Logo.Bounds);
+            logoPosition.Y = newGameBtn.Y - 175;
+
+            newGameBtn.ButtonPressed += this.screenManager.NewGame;
+            optionsBtn.ButtonPressed += this.screenManager.Options;
+            exitGameBtn.ButtonPressed += this.screenManager.ExitGame;
 
             newGameBtn.Hover = Audio.OnMenuHover;
             optionsBtn.Hover = Audio.OnMenuHover;
@@ -42,6 +43,8 @@ namespace StrategyGame.Screens
 
         public void Update(GameTime gameTime)
         {
+            if (GameState.GameIsRunning && newGameBtn.Label.Body.Equals("New Game"))
+                newGameBtn.Label.Body = "Continue";
             newGameBtn.Update(gameTime);
             optionsBtn.Update(gameTime);
             exitGameBtn.Update(gameTime);
@@ -50,26 +53,25 @@ namespace StrategyGame.Screens
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(Configuration.BackdropTexture, GraphicsManager.Viewport.Bounds, Color.White);
-            spriteBatch.Draw(Textures.Logo, logoPosition, Configuration.TextureColor);
+            spriteBatch.Draw(GraphicsManager.GetTextureOfColor(Settings.BackdropColor), GraphicsManager.Viewport.Bounds, Settings.TextureColor);
+            spriteBatch.Draw(Textures.Logo, logoPosition, Settings.TextureColor);
             newGameBtn.Draw(spriteBatch);
             optionsBtn.Draw(spriteBatch);
             exitGameBtn.Draw(spriteBatch);
             spriteBatch.End();
         }
 
-        public Button AddButton(string title, int x, int y)
+        private Button CreateButton(string title, int x, int y)
         {
-            return new Button(title, x, y, Textures.Empty); ;
+            return new Button(title, x, y, Textures.Empty);
         }
 
-        public Button AddButtonCenter(string title, int x, int y)
+        private Button CreateCenterAlignedButton(string title, int x, int y)
         {
-            Button button = AddButton(title, x, y);
+            Button button = CreateButton(title, x, y);
             GraphicsManager.CenterGameObjectX(button);
             return button;
         }
-
 
     }
 

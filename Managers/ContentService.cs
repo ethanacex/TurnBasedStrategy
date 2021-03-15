@@ -34,29 +34,36 @@ namespace StrategyGame.Managers
             _content = Content;
             _graphics = graphics;
 
-            SpriteFont fixedsys = _content.Load<SpriteFont>("fixedsys");
-            Fonts.Add("FixedSys", fixedsys);
+            SpriteFont menuFont = _content.Load<SpriteFont>("Fonts/fixedsys");
+            SpriteFont inGameFont = _content.Load<SpriteFont>("Fonts/fixedsysUI");
+            SpriteFont detailFont = _content.Load<SpriteFont>("Fonts/fixedsysDetail");
+            Fonts.Add("MenuFont", menuFont);
+            Fonts.Add("InGameFont", inGameFont);
+            Fonts.Add("DetailFont", detailFont);
 
-            Texture2D empty = _content.Load<Texture2D>("emptyblack");
-            Texture2D test = _content.Load<Texture2D>("test");
-            Texture2D red = _content.Load<Texture2D>("testred");
-            Texture2D logo = _content.Load<Texture2D>("logo");
+            Texture2D empty = _content.Load<Texture2D>("Textures/emptyblack");
+            Texture2D test = _content.Load<Texture2D>("Textures/test");
+            Texture2D red = _content.Load<Texture2D>("Textures/testred");
+            Texture2D logo = _content.Load<Texture2D>("Textures/logo");
+            Texture2D mine = _content.Load<Texture2D>("Textures/mine");
             Textures.Add("Test", test);
+            Textures.Add("Mine", mine);
             Textures.Add("TestRed", red);
             Textures.Add("Logo", logo);
             Textures.Add("EmptyBlack", empty);
 
-            SoundEffect menuHover = _content.Load<SoundEffect>("menuHover");
-            SoundEffect menuFoward = _content.Load<SoundEffect>("forwardMenu");
-            SoundEffect menuBack = _content.Load<SoundEffect>("backMenu");
+            SoundEffect menuHover = _content.Load<SoundEffect>("Audio/menuHover");
+            SoundEffect menuFoward = _content.Load<SoundEffect>("Audio/forwardMenu");
+            SoundEffect menuBack = _content.Load<SoundEffect>("Audio/backMenu");
             SFX.Add("MenuHover", menuHover);
             SFX.Add("MenuForward", menuFoward);
             SFX.Add("MenuBack", menuBack);
 
-            Song menuMusic = _content.Load<Song>("superSuspense");
+            Song menuMusic = _content.Load<Song>("Audio/superSuspense");
             Music.Add("MenuTheme", menuMusic);
 
             GameState.MainMenuHandler += Audio.MenuMusic;
+            GameState.AllowAudioHandler += Audio.ToggleAudio;
         }
 
         public static ContentService Instance

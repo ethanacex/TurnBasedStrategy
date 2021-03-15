@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StrategyGame.Media;
 using StrategyGame.Screens;
 
 namespace StrategyGame.Managers
 {
-    partial class ScreenManager
+    class ScreenManager
     {
         StrategyGame game;
         Stack<IScreen> screens;
         IScreen currentScreen;
+        public EventHandler<EventArgs> FullscreenEventHandler;
         
         public ScreenManager(IScreen startScreen, StrategyGame game)
         {
@@ -55,6 +54,11 @@ namespace StrategyGame.Managers
                 screens.Pop();
         }
 
+        internal void ToggleFullscreen(object sender, EventArgs e)
+        {
+            GameState.ToggleFullScreen = !GameState.ToggleFullScreen;
+        }
+
         public void PreviousScreen(object sender, EventArgs e)
         {
             PopScreen();
@@ -91,18 +95,24 @@ namespace StrategyGame.Managers
             }
         }
 
+        internal void ToggleHighRes(object sender, EventArgs e)
+        {
+            GameState.ToggleHighRes = !GameState.ToggleHighRes;
+        }
+
+        internal void ToggleLowRes(object sender, EventArgs e)
+        {
+            GameState.ToggleLowRes = !GameState.ToggleLowRes;
+        }
+
         public void ToggleDebug(object sender, EventArgs e)
         {
-            if (!GameState.DebugColorMode)
-            {
-                Configuration.BackdropTexture = Configuration.DebugTexture;
-                GameState.DebugColorMode = !GameState.DebugColorMode;
-            }
-            else
-            {
-                Configuration.BackdropTexture = Textures.Empty;
-                GameState.DebugColorMode = !GameState.DebugColorMode;
-            }
+            GameState.DebugColorMode = !GameState.DebugColorMode;
+        }
+
+        public void ToggleMusic(object sender, EventArgs e)
+        {
+            GameState.ToggleAudio = !GameState.ToggleAudio;
         }
 
         public void ExitGame(object source, EventArgs args)

@@ -19,10 +19,23 @@ namespace StrategyGame.Media
             if (GameState.IsOnMenuScreen)
             {
                 MediaPlayer.Play(MenuTheme);
+
                 MediaPlayer.IsRepeating = true;
             }
             else
                 MediaPlayer.Stop();
+        }
+
+        public static void ToggleAudio(object source, EventArgs args)
+        {
+            if (GameState.ToggleAudio)
+            {
+                MediaPlayer.IsMuted = false;
+            }
+            else
+            {
+                MediaPlayer.IsMuted = true;
+            }
         }
 
     }
