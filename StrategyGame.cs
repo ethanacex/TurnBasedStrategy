@@ -16,15 +16,14 @@ namespace StrategyGame
         public StrategyGame()
         {
             graphics = new GraphicsDeviceManager(this);
-
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
 
             base.Initialize();
@@ -35,6 +34,8 @@ namespace StrategyGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ContentService.Instance.LoadContent(Content, GraphicsDevice);
             screenManager = new ScreenManager(new MenuScreen(), this);
+            GraphicsManager.Initialize(graphics);
+            EventService.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
@@ -48,7 +49,7 @@ namespace StrategyGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Settings.GraphicsDeviceColor);
             screenManager.Draw(spriteBatch);
             base.Draw(gameTime);
         }

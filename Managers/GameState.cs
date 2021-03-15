@@ -13,12 +13,18 @@ namespace StrategyGame.Managers
         private static bool allowAudio = true;
         private static bool windowInFocus = true;
         private static bool toggleGridLines = true;
+        private static bool isFullScreen = false;
+        private static bool isLowRes = false;
+        private static bool isHighRes = false;
 
         public static event EventHandler<EventArgs> MainMenuHandler;
         public static event EventHandler<EventArgs> GameIsRunningHandler;
         public static event EventHandler<EventArgs> DebugModeHandler;
         public static event EventHandler<EventArgs> WindowInFocusHandler;
         public static event EventHandler<EventArgs> AllowAudioHandler;
+        public static event EventHandler<EventArgs> FullscreenEventHandler;
+        public static event EventHandler<EventArgs> LowResEventHandler;
+        public static event EventHandler<EventArgs> HighResEventHandler;
 
         public static bool IsOnMenuScreen { 
             get
@@ -67,9 +73,16 @@ namespace StrategyGame.Managers
                     if (DebugModeHandler != null)
                         DebugModeHandler(debugMode, EventArgs.Empty);
                     if (debugMode)
-                        Backdrop = Textures.TestPink;
+                    {
+                        Settings.BackdropColor = Color.Pink;
+                        Settings.GraphicsDeviceColor = Color.CornflowerBlue;
+                    }
                     else
-                        Backdrop = Textures.Empty;
+                    {
+                        Settings.BackdropColor = Color.Black;
+                        Settings.GraphicsDeviceColor = Color.Black;
+                    }
+                        
                 }
 
             }
@@ -119,7 +132,46 @@ namespace StrategyGame.Managers
                 }
             }
         }
+        public static bool ToggleFullScreen
+        {
+            get { return isFullScreen; }
+            set
+            {
+                if (isFullScreen != value)
+                {
+                    isFullScreen = value;
+                    if (FullscreenEventHandler != null)
+                        FullscreenEventHandler(isFullScreen, EventArgs.Empty);
+                }
+            }
+        }
 
-        public static Texture2D Backdrop { get; set; } = Textures.Empty;
+        public static bool ToggleHighRes
+        {
+            get { return isHighRes; }
+            set
+            {
+                if (isHighRes != value)
+                {
+                    isHighRes = value;
+                    if (HighResEventHandler != null)
+                        HighResEventHandler(isHighRes, EventArgs.Empty);
+                }
+            }
+        }
+
+        public static bool ToggleLowRes
+        {
+            get { return isLowRes; }
+            set
+            {
+                if (isLowRes != value)
+                {
+                    isLowRes = value;
+                    if (LowResEventHandler != null)
+                        LowResEventHandler(isLowRes, EventArgs.Empty);
+                }
+            }
+        }
     }
 }

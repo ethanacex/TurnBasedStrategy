@@ -18,9 +18,11 @@ namespace StrategyGame.Managers
         public static Point GridPosition { get; set; } = new Point(50, 50);
         public static Color TextureColor { get; private set; } = Color.White;
         public static Color BorderColor { get; set; } = Color.Black;
-        public static Color TileColor { get; private set; } = Color.White;
+        public static Color TileColor { get; private set; } = Color.Green;
         public static Color Highlight { get; private set; } = Color.White;
         public static Color TextColor { get; internal set; } = Color.White;
+        public static Color BackdropColor { get; set; } = Color.Black;
+        public static Color GraphicsDeviceColor { get; set; } = Color.Black;
 
     }
 }

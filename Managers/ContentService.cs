@@ -35,9 +35,11 @@ namespace StrategyGame.Managers
             _graphics = graphics;
 
             SpriteFont menuFont = _content.Load<SpriteFont>("Fonts/fixedsys");
-            SpriteFont inGameFont = _content.Load<SpriteFont>("Fonts/uiLabels");
+            SpriteFont inGameFont = _content.Load<SpriteFont>("Fonts/fixedsysUI");
+            SpriteFont detailFont = _content.Load<SpriteFont>("Fonts/fixedsysDetail");
             Fonts.Add("MenuFont", menuFont);
             Fonts.Add("InGameFont", inGameFont);
+            Fonts.Add("DetailFont", detailFont);
 
             Texture2D empty = _content.Load<Texture2D>("Textures/emptyblack");
             Texture2D test = _content.Load<Texture2D>("Textures/test");

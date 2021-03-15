@@ -44,12 +44,19 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/fixedsys.spritefont
 
-#begin Fonts/uiLabels.spritefont
+#begin Fonts/fixedsysDetail.spritefont
 /importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
+/processor:LocalizedFontProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/uiLabels.spritefont
+/build:Fonts/fixedsysDetail.spritefont
+
+#begin Fonts/fixedsysUI.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/fixedsysUI.spritefont
 
 #begin Textures/emptyblack.png
 /importer:TextureImporter

@@ -12,6 +12,8 @@ namespace StrategyGame.IO
         public Label Label { get; set; }
         public SoundEffect Hover { get; set; }
         public SoundEffect Click { get; set; }
+        public Color DefaultLabelColor { get; set; }
+        public bool ToggleHighlight { get; set; }
 
         public event EventHandler<EventArgs> ButtonPressed;
 
@@ -20,6 +22,17 @@ namespace StrategyGame.IO
             Label = new Label(text, new Vector2(x, y));
             Bounds = new Rectangle(new Point(x, y), GraphicsManager.GetLabelDimensions(Label));
             Texture = texture;
+            DefaultLabelColor = Label.Color;
+            ToggleHighlight = true;
+        }
+
+        public Button(string text, int x, int y, SpriteFont font)
+        {
+            Label = new Label(text, new Vector2(x, y), font, Settings.TextColor);
+            Bounds = new Rectangle(new Point(x, y), GraphicsManager.GetLabelDimensions(Label));
+            Texture = GraphicsManager.GetTextureOfColor(Settings.BackdropColor);
+            DefaultLabelColor = Label.Color;
+            ToggleHighlight = false;
         }
 
         public void HoverSound()
@@ -48,7 +61,7 @@ namespace StrategyGame.IO
             {
                 Texture = new Texture2D(sb.GraphicsDevice, Bounds.Width, Bounds.Height);
             }
-            sb.Draw(Texture, Bounds, Color.White);
+            sb.Draw(Texture, Bounds, Label.Color);
             if (Label != null)
             {
                 Label.Draw(sb);
@@ -57,9 +70,11 @@ namespace StrategyGame.IO
 
         public override void Update(GameTime gameTime)
         {
+
             if (Bounds.Contains(Input.CurrentMousePosition))
             {
-                Label.Color = Color.Blue;
+                if (ToggleHighlight)
+                    Label.Color = Color.Blue;
 
                 if (!Bounds.Contains(Input.PreviousMousePosition))
                 {
@@ -70,12 +85,11 @@ namespace StrategyGame.IO
                     OnButtonPressed();
                 }
             }
-                
             else
             {
-                Label.Color = Color.White;
+                Label.Color = DefaultLabelColor;
             }
-                
+
         }
     }
 }

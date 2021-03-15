@@ -25,7 +25,7 @@ namespace StrategyGame.GUI
         {
 
             if (Texture == null)
-                sb.Draw(GameState.Backdrop, Bounds, Settings.TextureColor);
+                sb.Draw(GraphicsManager.GetTextureOfColor(Settings.BackdropColor), Bounds, Settings.TextureColor);
             else
                 sb.Draw(Texture, Bounds, Color.White);
 

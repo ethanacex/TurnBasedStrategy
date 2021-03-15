@@ -11,36 +11,22 @@ namespace StrategyGame.GUI
 {
     public class Tile : GameObject
     {
-        private Texture2D texture;
-        private Texture2D border;
-        private Color fill;
-        public Color[] PixelInfo { get; set; }
-
         public Tile(Point position)
         {
             Bounds = new Rectangle(position.X, position.Y, Settings.TileWidth, Settings.TileHeight);
-            fill = Settings.TileColor;
-            border = Textures.Empty;
-            //SetColor(border);
         }
-
-        //public void SetColor(Texture2D texture)
-        //{
-        //    PixelInfo = new Color[Config.TILEWIDTH * Config.TILEHEIGHT];
-        //    texture.GetData(0, Bounds, PixelInfo, 0, PixelInfo.Length);
-        //    border.SetData(PixelInfo);
-        //}
 
         public override void Update(GameTime gameTime)
         {
-            //if (Bounds.Contains(Input.CurrentMousePosition))
-            //{
-            //    fill = Color.White;
-            //}
+
         }
 
         public override void Draw(SpriteBatch sb)
         {
+            // Draw tile fill color
+            sb.Draw(GraphicsManager.GetTextureOfColor(Settings.TileColor), Bounds, Color.White);
+
+            // Draw tile border
             if (GameState.ToggleGridLines)
                 GraphicsManager.DrawGameObjectBorder(sb, this, Settings.BorderWidth, Settings.BorderColor);
         }
