@@ -53,7 +53,7 @@ namespace StrategyGame.Screens
             rightPanel = new Panel(new Point(grid.Right, 0), new Point(15, screen.Height));
             inspectorPanel = new Panel(new Point(rightPanel.Bounds.Right, 0), new Point(screen.Width - (grid.Width + leftPanel.Bounds.Width + rightPanel.Bounds.Width), screen.Height));
             inspectorWindow = new Panel(new Point(inspectorPanel.Bounds.X, gridPosition.Y), new Point(350, 300));
-            inspectorWindow.SetBorder(3, Color.White);
+            inspectorWindow.SetCustomBorder(3, Color.White);
 
             // Initialize Status Bar
             Rectangle currentPanel = statusPanel.Bounds;

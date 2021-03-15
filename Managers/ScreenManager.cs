@@ -94,6 +94,11 @@ namespace StrategyGame.Managers
             GameState.DebugColorMode = !GameState.DebugColorMode;
         }
 
+        public void ToggleMusic(object sender, EventArgs e)
+        {
+            GameState.ToggleAudio = !GameState.ToggleAudio;
+        }
+
         public void ExitGame(object source, EventArgs args)
         {
             game.Exit();
