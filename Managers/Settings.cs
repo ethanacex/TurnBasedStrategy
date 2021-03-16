@@ -9,8 +9,8 @@ namespace StrategyGame.Managers
     {
         public static int TileWidth { get; private set; } = 50;
         public static int TileHeight { get; private set; } = 50;
-        public static int GridColumns { get; private set; } = 16;
-        public static int GridRows { get; private set; } = 9;
+        public static int GridColumns { get; private set; } = 30;
+        public static int GridRows { get; private set; } = 15;
         public static int GridWidth { get; } = TileWidth * GridColumns;
         public static int GridHeight { get; } = TileHeight * GridRows;
         public static int BorderWidth { get; private set; } = 1;
