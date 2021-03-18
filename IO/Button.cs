@@ -9,10 +9,11 @@ namespace StrategyGame.IO
 {
     public class Button : GameObject
     {
+        private Color defaultTextColor;
         public Label Label { get; set; }
         public SoundEffect Hover { get; set; }
         public SoundEffect Click { get; set; }
-        public Color DefaultLabelColor { get; set; }
+        public Color DefaultLabelColor { get { return defaultTextColor; } set { defaultTextColor = value; Label.Color = value; } }
         public bool ToggleHighlight { get; set; }
 
         public event EventHandler<EventArgs> ButtonPressed;
@@ -22,7 +23,7 @@ namespace StrategyGame.IO
             Label = new Label(text, new Vector2(x, y));
             Bounds = new Rectangle(new Point(x, y), GraphicsManager.GetLabelDimensions(Label));
             Texture = texture;
-            DefaultLabelColor = Label.Color;
+            defaultTextColor = Label.Color;
             ToggleHighlight = true;
         }
 
@@ -35,7 +36,7 @@ namespace StrategyGame.IO
             ToggleHighlight = false;
         }
 
-        public void HoverSound()
+        private void HoverSound()
         {
             if (GameState.WindowInFocus)
             {
@@ -44,7 +45,7 @@ namespace StrategyGame.IO
             }
         }
 
-        public virtual void OnButtonPressed()
+        private void OnButtonPressed()
         {
             if (GameState.WindowInFocus)
             {

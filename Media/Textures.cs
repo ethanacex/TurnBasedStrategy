@@ -13,5 +13,7 @@ namespace StrategyGame.Media
         public static Texture2D TestRed { get; } = ContentService.Instance.Textures["TestRed"];
         public static Texture2D Logo { get; } = ContentService.Instance.Textures["Logo"];
         public static Texture2D Mine { get; } = ContentService.Instance.Textures["Mine"];
+        public static Texture2D WorldMap { get; } = ContentService.Instance.Textures["WorldMap"];
+        public static Texture2D WorldMap2 { get; } = ContentService.Instance.Textures["WorldMap2"];
     }
 }

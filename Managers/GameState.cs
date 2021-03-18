@@ -5,6 +5,7 @@ using System;
 
 namespace StrategyGame.Managers
 {
+    public enum PlayerTurn { Blue, Red };
     static class GameState
     {
         private static bool onMainMenu = false;
@@ -15,7 +16,9 @@ namespace StrategyGame.Managers
         private static bool toggleGridLines = true;
         private static bool isFullScreen = false;
         private static bool isLowRes = false;
-        private static bool isHighRes = false;
+        private static bool isHighRes = true;
+
+        private static PlayerTurn currentTurn = PlayerTurn.Blue;
 
         public static event EventHandler<EventArgs> MainMenuHandler;
         public static event EventHandler<EventArgs> GameIsRunningHandler;
@@ -25,7 +28,25 @@ namespace StrategyGame.Managers
         public static event EventHandler<EventArgs> FullscreenEventHandler;
         public static event EventHandler<EventArgs> LowResEventHandler;
         public static event EventHandler<EventArgs> HighResEventHandler;
+        public static event EventHandler<EventArgs> PlayerTurnChangedHandler;
 
+        public static PlayerTurn CurrentPlayer
+        {
+            get { return currentTurn; }
+            set
+            {
+                if (currentTurn != value)
+                {
+                    currentTurn = value;
+                    if (PlayerTurnChangedHandler != null)
+                        PlayerTurnChangedHandler(null, EventArgs.Empty);
+                }
+            }
+        }
+        public static string CurrentPlayerName
+        {
+            get { return (CurrentPlayer == PlayerTurn.Blue) ? "Blue" : "Red"; }
+        }
         public static bool IsOnMenuScreen { 
             get
             { 
@@ -132,7 +153,7 @@ namespace StrategyGame.Managers
                 }
             }
         }
-        public static bool ToggleFullScreen
+        public static bool IsFullScreen
         {
             get { return isFullScreen; }
             set
@@ -140,13 +161,17 @@ namespace StrategyGame.Managers
                 if (isFullScreen != value)
                 {
                     isFullScreen = value;
+                    if (isFullScreen)
+                    {
+                        isHighRes = false;
+                        isLowRes = false;
+                    }
                     if (FullscreenEventHandler != null)
                         FullscreenEventHandler(isFullScreen, EventArgs.Empty);
                 }
             }
         }
-
-        public static bool ToggleHighRes
+        public static bool IsHighResolution
         {
             get { return isHighRes; }
             set
@@ -154,13 +179,17 @@ namespace StrategyGame.Managers
                 if (isHighRes != value)
                 {
                     isHighRes = value;
+                    if (isHighRes)
+                    {
+                        isLowRes = false;
+                        isFullScreen = false;
+                    }
                     if (HighResEventHandler != null)
                         HighResEventHandler(isHighRes, EventArgs.Empty);
                 }
             }
         }
-
-        public static bool ToggleLowRes
+        public static bool IsLowResolution
         {
             get { return isLowRes; }
             set
@@ -168,6 +197,11 @@ namespace StrategyGame.Managers
                 if (isLowRes != value)
                 {
                     isLowRes = value;
+                    if (isLowRes)
+                    {
+                        isHighRes = false;
+                        isFullScreen = false;
+                    }
                     if (LowResEventHandler != null)
                         LowResEventHandler(isLowRes, EventArgs.Empty);
                 }

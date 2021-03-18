@@ -46,11 +46,15 @@ namespace StrategyGame.Managers
             Texture2D red = _content.Load<Texture2D>("Textures/testred");
             Texture2D logo = _content.Load<Texture2D>("Textures/logo");
             Texture2D mine = _content.Load<Texture2D>("Textures/mine");
+            Texture2D worldmap = _content.Load<Texture2D>("Textures/worldmap");
+            Texture2D worldmap2 = _content.Load<Texture2D>("Textures/worldmap2");
             Textures.Add("Test", test);
             Textures.Add("Mine", mine);
             Textures.Add("TestRed", red);
             Textures.Add("Logo", logo);
             Textures.Add("EmptyBlack", empty);
+            Textures.Add("WorldMap", worldmap);
+            Textures.Add("WorldMap2", worldmap2);
 
             SoundEffect menuHover = _content.Load<SoundEffect>("Audio/menuHover");
             SoundEffect menuFoward = _content.Load<SoundEffect>("Audio/forwardMenu");
