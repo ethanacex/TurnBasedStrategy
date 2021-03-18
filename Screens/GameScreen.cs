@@ -6,6 +6,7 @@ using StrategyGame.GUI;
 using StrategyGame.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System;
 
 namespace StrategyGame.Screens
 {
@@ -45,8 +46,13 @@ namespace StrategyGame.Screens
         public void Initialize(ScreenManager screenManager)
         {
             this.screenManager = screenManager;
+
+            // Subscribe to changes in resolution
+            GraphicsManager.ResolutionChanged += Reinitialize;
+
             Viewport screen = GraphicsManager.Viewport;
             screenElements = new List<GameObject>();
+
             int marginX = (int)(screen.Width * 0.01);
             int marginY = (int)(screen.Height * 0.01);
 
@@ -62,6 +68,12 @@ namespace StrategyGame.Screens
             Settings.GridPosition = gridPosition;
 
             // Initialize Grid
+            Settings.GridColumns = (int)Math.Floor((GraphicsManager.Viewport.Width * Settings.GridWidthPercent) / Settings.TileWidth);
+            Settings.GridRows = (int)Math.Floor((GraphicsManager.Viewport.Height * Settings.GridHeightPercent) / Settings.TileHeight);
+
+            if (GraphicsManager.Viewport.Width == 1280)
+                Settings.GridColumns -= 3;
+
             grid = new Grid();
             grid.Initialize(Textures.Empty);
 
@@ -136,6 +148,11 @@ namespace StrategyGame.Screens
 
             screenElements.Add(grid);
 
+            Debug.WriteLine("Screen width: " + GraphicsManager.Viewport.Width);
+            Debug.WriteLine("Game Area width: " + gameArea.Width);
+            Debug.WriteLine("Inspector panel width: " + inspectorPanel.Width);
+            Debug.WriteLine("Right panel width: " + rightPanel.Width);
+
         }
 
         public void Update(GameTime gameTime)
@@ -153,5 +170,9 @@ namespace StrategyGame.Screens
             sb.End();
         }
 
+        public void Reinitialize(object sender, EventArgs e)
+        {
+            Initialize(screenManager);
+        }
     }
 }

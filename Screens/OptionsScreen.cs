@@ -27,6 +27,10 @@ namespace StrategyGame.Managers
         public void Initialize(ScreenManager screenManager)
         {
             this.screenManager = screenManager;
+
+            // Subscribe to changes in resolution
+            GraphicsManager.ResolutionChanged += Reinitialize;
+
             optionsMenuButtons = new List<Button>();
             subMenuButtons = new List<Button>();
             inSubmenu = false;
@@ -72,7 +76,6 @@ namespace StrategyGame.Managers
             backButton.Hover = Audio.OnMenuHover;
             backButton.Click = Audio.MenuBack;
         }
-
         private void PreviousScreen(object sender, EventArgs e)
         {
             if (inSubmenu)
@@ -140,7 +143,10 @@ namespace StrategyGame.Managers
             button.Click = Audio.MenuForward;
         }
 
-
+        public void Reinitialize(object sender, EventArgs e)
+        {
+            Initialize(screenManager);
+        }
     }
 
 }
