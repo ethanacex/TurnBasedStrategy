@@ -11,7 +11,6 @@ namespace StrategyGame.Managers
         StrategyGame game;
         Stack<IScreen> screens;
         IScreen currentScreen;
-        public EventHandler<EventArgs> FullscreenEventHandler;
         
         public ScreenManager(IScreen startScreen, StrategyGame game)
         {
@@ -54,11 +53,6 @@ namespace StrategyGame.Managers
                 screens.Pop();
         }
 
-        internal void ToggleFullscreen(object sender, EventArgs e)
-        {
-            GameState.ToggleFullScreen = !GameState.ToggleFullScreen;
-        }
-
         public void PreviousScreen(object sender, EventArgs e)
         {
             PopScreen();
@@ -95,14 +89,19 @@ namespace StrategyGame.Managers
             }
         }
 
+        internal void ToggleFullscreen(object sender, EventArgs e)
+        {
+            GameState.IsFullScreen = true;
+        }
+
         internal void ToggleHighRes(object sender, EventArgs e)
         {
-            GameState.ToggleHighRes = !GameState.ToggleHighRes;
+            GameState.IsHighResolution = true;
         }
 
         internal void ToggleLowRes(object sender, EventArgs e)
         {
-            GameState.ToggleLowRes = !GameState.ToggleLowRes;
+            GameState.IsLowResolution = true;
         }
 
         public void ToggleDebug(object sender, EventArgs e)
