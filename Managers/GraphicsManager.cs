@@ -9,6 +9,13 @@ namespace StrategyGame.Managers
 {
     public static class GraphicsManager
     {
+        public static event EventHandler<EventArgs> ResolutionChanged;
+
+        public static void OnResolutionChanged()
+        {
+            ResolutionChanged?.Invoke(null, EventArgs.Empty);
+        }
+
         private static GraphicsDevice Graphics { get; } = ContentService.Instance.Graphics;
 
         private static GraphicsDeviceManager GraphicsDeviceManager;
@@ -20,7 +27,11 @@ namespace StrategyGame.Managers
 
         internal static void ToggleFullscreen(object sender, EventArgs e)
         {
-            GraphicsDeviceManager.ToggleFullScreen();
+            GraphicsDeviceManager.PreferredBackBufferWidth = Graphics.DisplayMode.Width;
+            GraphicsDeviceManager.PreferredBackBufferHeight = Graphics.DisplayMode.Height;
+            GraphicsDeviceManager.IsFullScreen = true;
+            GraphicsDeviceManager.ApplyChanges();
+            OnResolutionChanged();
         }
 
         internal static void ToggleLowRes(object sender, EventArgs e)
@@ -28,6 +39,7 @@ namespace StrategyGame.Managers
             GraphicsDeviceManager.PreferredBackBufferWidth = 1280;
             GraphicsDeviceManager.PreferredBackBufferHeight = 720;
             GraphicsDeviceManager.ApplyChanges();
+            OnResolutionChanged();
         }
 
         internal static void ToggleHighRes(object sender, EventArgs e)
@@ -35,9 +47,10 @@ namespace StrategyGame.Managers
             GraphicsDeviceManager.PreferredBackBufferWidth = 1920;
             GraphicsDeviceManager.PreferredBackBufferHeight = 1080;
             GraphicsDeviceManager.ApplyChanges();
+            OnResolutionChanged();
         }
 
-        public static Viewport Viewport { get; } = ContentService.Instance.Graphics.Viewport;
+        public static Viewport Viewport { get { return ContentService.Instance.Graphics.Viewport; } }
 
         public static Texture2D GetTextureOfColor(Color color)
         {

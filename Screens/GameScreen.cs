@@ -6,6 +6,7 @@ using StrategyGame.GUI;
 using StrategyGame.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System;
 
 namespace StrategyGame.Screens
 {
@@ -21,6 +22,7 @@ namespace StrategyGame.Screens
         Panel statusPanel;
         Panel rightPanel;
         Panel messagePanel;
+        Panel messageLogPanel;
 
         Button inspectorButton;
         Button mapButton;
@@ -44,10 +46,15 @@ namespace StrategyGame.Screens
         public void Initialize(ScreenManager screenManager)
         {
             this.screenManager = screenManager;
+
+            // Subscribe to changes in resolution
+            GraphicsManager.ResolutionChanged += Reinitialize;
+
             Viewport screen = GraphicsManager.Viewport;
             screenElements = new List<GameObject>();
-            int marginX = (int)(screen.Width * 0.02);
-            int marginY = (int)(screen.Height * 0.02);
+
+            int marginX = (int)(screen.Width * 0.01);
+            int marginY = (int)(screen.Height * 0.01);
 
             // Initialize game area with margin around outer edge of screen
             gameArea = new Panel(new Point(screen.X + marginX, screen.Y + marginY), new Point(screen.Width - (marginX*2), screen.Height - (marginY*2)));
@@ -61,18 +68,25 @@ namespace StrategyGame.Screens
             Settings.GridPosition = gridPosition;
 
             // Initialize Grid
+            Settings.GridColumns = (int)Math.Floor((GraphicsManager.Viewport.Width * Settings.GridWidthPercent) / Settings.TileWidth);
+            Settings.GridRows = (int)Math.Floor((GraphicsManager.Viewport.Height * Settings.GridHeightPercent) / Settings.TileHeight);
+
+            if (GraphicsManager.Viewport.Width == 1280)
+                Settings.GridColumns -= 3;
+
             grid = new Grid();
             grid.Initialize(Textures.Empty);
 
             // Initialize Panels
             statusPanel = new Panel(new Point(gameArea.X, gameArea.Y), new Point(grid.Width, grid.Top - gameArea.Y));
-            messagePanel = new Panel(new Point(gameArea.X + 1, grid.Bottom + 10), new Point(grid.Width - 3, gameArea.Height - (grid.Height + statusPanel.Height + 10)));
-            rightPanel = new Panel(new Point(grid.Right, gameArea.Y), new Point(15, gameArea.Height));
+            messagePanel = new Panel(new Point(gameArea.X, grid.Bottom), new Point(grid.Width, gameArea.Height - (grid.Height + statusPanel.Height)));
+            messageLogPanel = new Panel(new Point(messagePanel.X + 1, messagePanel.Y + 25), new Point(messagePanel.Width - 3, messagePanel.Height - 40));
+            rightPanel = new Panel(new Point(grid.Right, gameArea.Y), new Point(25, gameArea.Height));
 
             inspectorPanel = new Panel(new Point(rightPanel.Right, gameArea.Y), new Point(gameArea.Width - (grid.Width + rightPanel.Width), gameArea.Height));
             inspectorWindow = new Panel(new Point(inspectorPanel.X, gridPosition.Y), new Point(350, 300));
             inspectorWindow.SetCustomBorder(3, Color.White);
-            messagePanel.SetCustomBorder(3, Color.White);
+            messageLogPanel.SetCustomBorder(3, Color.White);
 
             // Initialize elements on Status Bar
             Rectangle panel = statusPanel.Bounds;
@@ -104,8 +118,8 @@ namespace StrategyGame.Screens
 
             // Initialize elements on Message Panel
             panel = messagePanel.Bounds;
-            messageTitleLabel = new Label("Message Log:", new Vector2(panel.Left + 20, panel.Y + 10), Fonts.Small, Color.Cyan);
-            messageLogLabel = new Label("This is an example battle log entry", new Vector2(panel.Left + 20, messageTitleLabel.Bottom), Fonts.Small, Color.White);
+            messageTitleLabel = new Label(" Message Log: ", new Vector2(panel.Left + 20, panel.Y + 10), Fonts.Small, Color.Cyan);
+            messageLogLabel = new Label("This is an example battle log entry", new Vector2(panel.Left + 20, messageTitleLabel.Bottom + 10), Fonts.Small, Color.White);
 
             // Draw panels first
             screenElements.Add(statusPanel);
@@ -113,6 +127,7 @@ namespace StrategyGame.Screens
             screenElements.Add(messagePanel);
             screenElements.Add(inspectorPanel);
             screenElements.Add(inspectorWindow);
+            screenElements.Add(messageLogPanel);
 
             // Draw elements next
             screenElements.Add(messageTitleLabel);
@@ -133,6 +148,11 @@ namespace StrategyGame.Screens
 
             screenElements.Add(grid);
 
+            Debug.WriteLine("Screen width: " + GraphicsManager.Viewport.Width);
+            Debug.WriteLine("Game Area width: " + gameArea.Width);
+            Debug.WriteLine("Inspector panel width: " + inspectorPanel.Width);
+            Debug.WriteLine("Right panel width: " + rightPanel.Width);
+
         }
 
         public void Update(GameTime gameTime)
@@ -150,5 +170,9 @@ namespace StrategyGame.Screens
             sb.End();
         }
 
+        public void Reinitialize(object sender, EventArgs e)
+        {
+            Initialize(screenManager);
+        }
     }
 }

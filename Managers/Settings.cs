@@ -9,11 +9,13 @@ namespace StrategyGame.Managers
     {
         public static int TileWidth { get; private set; } = 50;
         public static int TileHeight { get; private set; } = 50;
-        public static int GridColumns { get; private set; } = 16;
-        public static int GridRows { get; private set; } = 9;
-        public static int GridWidth { get; } = TileWidth * GridColumns;
-        public static int GridHeight { get; } = TileHeight * GridRows;
+        public static int GridColumns { get; set; } = 30;
+        public static int GridRows { get; set; } = 15;
+        public static int GridWidth { get { return TileWidth * GridColumns; } }
+        public static int GridHeight { get { return TileHeight * GridRows; } }
         public static int BorderWidth { get; private set; } = 1;
+        public static double GridWidthPercent { get; } = 0.78125;
+        public static double GridHeightPercent { get; } = 0.69444;
 
         public static Point GridPosition { get; set; } = new Point(50, 50);
         public static Color TextureColor { get; private set; } = Color.White;

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StrategyGame.Media;
 using StrategyGame.IO;
 using StrategyGame.Managers;
+using System;
 
 namespace StrategyGame.Screens
 {
@@ -18,6 +19,9 @@ namespace StrategyGame.Screens
         public void Initialize(ScreenManager screenManager)
         {
             this.screenManager = screenManager;
+
+            // Subscribe to changes in resolution
+            GraphicsManager.ResolutionChanged += Reinitialize;
 
             Point screenCenter = GraphicsManager.Viewport.Bounds.Center;
 
@@ -73,6 +77,10 @@ namespace StrategyGame.Screens
             return button;
         }
 
+        public void Reinitialize(object sender, EventArgs e)
+        {
+            Initialize(screenManager);
+        }
     }
 
 }
