@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace StrategyGame.GUI
+namespace StrategyGame.Core
 {
     public abstract class GameObject
     {

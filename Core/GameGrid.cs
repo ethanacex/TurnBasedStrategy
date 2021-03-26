@@ -1,42 +1,41 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using StrategyGame.IO;
-using StrategyGame.Media;
+
 using StrategyGame.Managers;
 
-namespace StrategyGame.GUI
+namespace StrategyGame.Core
 {
-    public class Grid : GameObject
+    public class GameGrid : GameObject
     {
-        public Tile[,] Tiles { get; private set; }
+        private Tile[,] _tiles;
 
         public void Initialize(Texture2D levelScene)
         {
             Point gridSize = new Point(Settings.GridWidth, Settings.GridHeight);
 
             Bounds = new Rectangle(Settings.GridPosition, gridSize);
-            Tiles = new Tile[Settings.GridColumns, Settings.GridRows];
+            _tiles = new Tile[Settings.GridColumns, Settings.GridRows];
 
             Point tilePosition;
-
-            for (int x = 0; x < Settings.GridColumns; x++)
-                for (int y = 0; y < Settings.GridRows; y++)
+            int counter = 0;
+            for (int y = 0; y < Settings.GridRows; y++)
+                for (int x = 0; x < Settings.GridColumns; x++)
                 {
+                    counter++;
                     tilePosition = new Point(Bounds.X + (x * Settings.TileWidth), Bounds.Y + (y * Settings.TileHeight));
-                    Tiles[x, y] = new Tile(tilePosition);
+                    _tiles[x, y] = new Tile(tilePosition, counter.ToString(), x, y);
                 }
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var tile in Tiles)
+            foreach (var tile in _tiles)
                 tile.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            foreach (var tile in Tiles)
+            foreach (var tile in _tiles)
                 tile.Draw(sb);
         }
 
@@ -52,19 +51,5 @@ namespace StrategyGame.GUI
             return Bounds.Contains(point);
         }
 
-        private bool MouseIntersectsTileArea()
-        {
-            return MouseIntersectsArea(Input.CurrentMousePosition) && !MouseIntersectsArea(Input.PreviousMousePosition);
-        }
-
-        private bool MouseLeavesTileArea()
-        {
-            return MouseIntersectsArea(Input.PreviousMousePosition) && !MouseIntersectsArea(Input.CurrentMousePosition);
-        }
-
-        private bool MouseHoveringTileArea()
-        {
-            return MouseIntersectsArea(Input.CurrentMousePosition) && MouseIntersectsArea(Input.PreviousMousePosition);
-        }
     }
 }

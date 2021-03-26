@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using StrategyGame.IO;
-using StrategyGame.Media;
 using StrategyGame.GUI;
+using StrategyGame.Media;
+using StrategyGame.Core;
 
 namespace StrategyGame.Managers
 {
@@ -74,6 +74,11 @@ namespace StrategyGame.Managers
             return GetLabelDimensions(new Label(text, new Vector2(0, 0)));
         }
 
+        public static Point GetLabelDimensions(string text, SpriteFont font)
+        {
+            return font.MeasureString(text).ToPoint();
+        }
+
         public static void CenterGameObjectX(GameObject go)
         {
             int width = go.Width;
@@ -92,6 +97,16 @@ namespace StrategyGame.Managers
             return position;
         }
 
+        public static void CenterObjectOnPanel(GameObject go, Panel panel)
+        {
+            int width = go.Width;
+            Rectangle bounds = go.Bounds;
+            bounds.X = panel.Bounds.Center.X - (width / 2);
+            go.Bounds = bounds;
+            if (go is Button button)
+                button.Label.Bounds = go.Bounds;
+        }
+
         public static void DrawGameObjectBorder(SpriteBatch sb, GameObject go, int lineWidth, Color color)
         {
             Texture2D texture = GetTextureOfColor(color);
@@ -100,8 +115,6 @@ namespace StrategyGame.Managers
             sb.Draw(texture, new Rectangle(go.X + go.Width, go.Y, lineWidth, go.Height + lineWidth), color);
             sb.Draw(texture, new Rectangle(go.X, go.Y + go.Height, go.Width + lineWidth, lineWidth), color);
         }
-
-
 
     }
 }

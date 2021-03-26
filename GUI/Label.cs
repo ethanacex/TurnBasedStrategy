@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StrategyGame.Media;
-using StrategyGame.GUI;
+using StrategyGame.Core;
 
-namespace StrategyGame.IO
+namespace StrategyGame.GUI
 {
     public class Label : GameObject
     {

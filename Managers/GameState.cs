@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StrategyGame.Media;
 using System;
 
 namespace StrategyGame.Managers
@@ -10,8 +8,10 @@ namespace StrategyGame.Managers
     {
         private static bool onMainMenu = false;
         private static bool gameIsRunning = false;
+        private static bool gameIsActive = false;
         private static bool debugMode = false;
-        private static bool allowAudio = true;
+        private static bool allowMusic = false;
+        private static bool allowSFX = false;
         private static bool windowInFocus = true;
         private static bool toggleGridLines = true;
         private static bool isFullScreen = false;
@@ -21,10 +21,12 @@ namespace StrategyGame.Managers
         private static PlayerTurn currentTurn = PlayerTurn.Blue;
 
         public static event EventHandler<EventArgs> MainMenuHandler;
+        public static event EventHandler<EventArgs> InGameHandler;
         public static event EventHandler<EventArgs> GameIsRunningHandler;
         public static event EventHandler<EventArgs> DebugModeHandler;
         public static event EventHandler<EventArgs> WindowInFocusHandler;
-        public static event EventHandler<EventArgs> AllowAudioHandler;
+        public static event EventHandler<EventArgs> AllowMusicHandler;
+        public static event EventHandler<EventArgs> AllowSFXHandler;
         public static event EventHandler<EventArgs> FullscreenEventHandler;
         public static event EventHandler<EventArgs> LowResEventHandler;
         public static event EventHandler<EventArgs> HighResEventHandler;
@@ -43,11 +45,15 @@ namespace StrategyGame.Managers
                 }
             }
         }
+        public static Color CurrentPlayerColor
+        {
+            get { return (CurrentPlayer == PlayerTurn.Blue) ? Color.DodgerBlue : Color.Red; }
+        }
         public static string CurrentPlayerName
         {
             get { return (CurrentPlayer == PlayerTurn.Blue) ? "Blue" : "Red"; }
         }
-        public static bool IsOnMenuScreen { 
+        public static bool MenuIsActive { 
             get
             { 
                 return onMainMenu;
@@ -57,8 +63,29 @@ namespace StrategyGame.Managers
                 if (onMainMenu != value)
                 {
                     onMainMenu = value;
+                    if (onMainMenu)
+                        GameIsActive = false;
                     if (MainMenuHandler != null)
                         MainMenuHandler(onMainMenu, EventArgs.Empty);
+                }
+
+            }
+        }
+        public static bool GameIsActive
+        {
+            get
+            {
+                return gameIsActive;
+            }
+            set
+            {
+                if (gameIsActive != value)
+                {
+                    gameIsActive = value;
+                    if (gameIsActive)
+                        MenuIsActive = false;
+                    if (InGameHandler != null)
+                        InGameHandler(gameIsActive, EventArgs.Empty);
                 }
 
             }
@@ -80,7 +107,7 @@ namespace StrategyGame.Managers
 
             }
         }
-        public static bool DebugColorMode
+        public static bool DebugMode
         {
             get
             {
@@ -95,7 +122,7 @@ namespace StrategyGame.Managers
                         DebugModeHandler(debugMode, EventArgs.Empty);
                     if (debugMode)
                     {
-                        Settings.BackdropColor = Color.Pink;
+                        Settings.BackdropColor = Color.Transparent;
                         Settings.GraphicsDeviceColor = Color.CornflowerBlue;
                     }
                     else
@@ -108,19 +135,36 @@ namespace StrategyGame.Managers
 
             }
         }
-        public static bool ToggleAudio
+        public static bool ToggleMusic
         {
             get
             {
-                return allowAudio;
+                return allowMusic;
             }
             set
             {
-                if (allowAudio != value)
+                if (allowMusic != value)
                 {
-                    allowAudio = value;
-                    if (AllowAudioHandler != null)
-                        AllowAudioHandler(allowAudio, EventArgs.Empty);
+                    allowMusic = value;
+                    if (AllowMusicHandler != null)
+                        AllowMusicHandler(allowMusic, EventArgs.Empty);
+                }
+            }
+
+        }
+        public static bool ToggleSFX
+        {
+            get
+            {
+                return allowSFX;
+            }
+            set
+            {
+                if (allowSFX != value)
+                {
+                    allowSFX = value;
+                    if (AllowSFXHandler != null)
+                        AllowSFXHandler(allowSFX, EventArgs.Empty);
                 }
             }
 
@@ -201,6 +245,7 @@ namespace StrategyGame.Managers
                     {
                         isHighRes = false;
                         isFullScreen = false;
+
                     }
                     if (LowResEventHandler != null)
                         LowResEventHandler(isLowRes, EventArgs.Empty);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StrategyGame.Media;
-using StrategyGame.IO;
+using StrategyGame.GUI;
 using StrategyGame.Screens;
 using System;
 using System.Collections.Generic;
@@ -11,10 +11,13 @@ namespace StrategyGame.Managers
     class OptionsScreen : IScreen
     {
         ScreenManager screenManager;
+
         Label screenTitle;
+
         Button debugButton;
         Button backButton;
         Button musicButton;
+        Button sfxButton;
         Button fullScreenButton;
         Button resolutionButton;
         Button lowResButton;
@@ -22,6 +25,7 @@ namespace StrategyGame.Managers
 
         List<Button> optionsMenuButtons;
         List<Button> subMenuButtons;
+
         private bool inSubmenu;
 
         public void Initialize(ScreenManager screenManager)
@@ -38,19 +42,21 @@ namespace StrategyGame.Managers
             Rectangle view = GraphicsManager.Viewport.Bounds;
             Point screenCenter = GraphicsManager.Viewport.Bounds.Center;
             
-            resolutionButton = CreateCenterAlignedButton("Change Resolution", screenCenter.X, screenCenter.Y - 100);
-            musicButton = CreateCenterAlignedButton("Toggle Music", screenCenter.X, screenCenter.Y - 25);
-            debugButton = CreateCenterAlignedButton("Toggle Debug", screenCenter.X, screenCenter.Y + 50);
+            resolutionButton = CreateCenterAlignedButton("Change Resolution", screenCenter.X, screenCenter.Y - 150);
+            musicButton = CreateCenterAlignedButton("Toggle Music", screenCenter.X, screenCenter.Y - 75);
+            sfxButton = CreateCenterAlignedButton("Toggle SFX", screenCenter.X, screenCenter.Y + 0);
+            debugButton = CreateCenterAlignedButton("Toggle Debug", screenCenter.X, screenCenter.Y + 75);
 
-            lowResButton = CreateCenterAlignedButton("1280 x 720", screenCenter.X, screenCenter.Y - 100);
-            highDefButton = CreateCenterAlignedButton("1920 x 1080", screenCenter.X, screenCenter.Y - 25);
-            fullScreenButton = CreateCenterAlignedButton("Toggle Fullscreen", screenCenter.X, screenCenter.Y + 50);
+            lowResButton = CreateCenterAlignedButton("1280 x 720", screenCenter.X, screenCenter.Y - 150);
+            highDefButton = CreateCenterAlignedButton("1920 x 1080", screenCenter.X, screenCenter.Y - 75);
+            fullScreenButton = CreateCenterAlignedButton("Toggle Fullscreen", screenCenter.X, screenCenter.Y + 0);
 
-            backButton = CreateCenterAlignedButton("Back", screenCenter.X, debugButton.Y + 125);
-            screenTitle = AddLabelCenter("Options Menu", screenCenter.X, resolutionButton.Y - 175);
+            backButton = CreateCenterAlignedButton("Back", screenCenter.X, (int)(view.Bottom * 0.80));
+            screenTitle = AddLabelCenter("Options Menu", screenCenter.X, (int)(view.Bottom * 0.10));
 
             optionsMenuButtons.Add(resolutionButton);
             optionsMenuButtons.Add(musicButton);
+            optionsMenuButtons.Add(sfxButton);
             optionsMenuButtons.Add(debugButton);
 
             subMenuButtons.Add(fullScreenButton);
@@ -61,6 +67,7 @@ namespace StrategyGame.Managers
             backButton.ButtonPressed += PreviousScreen;
             debugButton.ButtonPressed += screenManager.ToggleDebug;
             musicButton.ButtonPressed += screenManager.ToggleMusic;
+            sfxButton.ButtonPressed += screenManager.ToggleSFX;
             resolutionButton.ButtonPressed += NavigateSubMenu;
             fullScreenButton.ButtonPressed += screenManager.ToggleFullscreen;
             lowResButton.ButtonPressed += screenManager.ToggleLowRes;
@@ -68,6 +75,7 @@ namespace StrategyGame.Managers
 
             SetMenuButtonAudio(debugButton);
             SetMenuButtonAudio(musicButton);
+            SetMenuButtonAudio(sfxButton);
             SetMenuButtonAudio(resolutionButton);
             SetMenuButtonAudio(fullScreenButton);
             SetMenuButtonAudio(lowResButton);

@@ -11,6 +11,7 @@ namespace StrategyGame.Media
         public static SpriteFont MenuFont { get; } = ContentService.Instance.Fonts["MenuFont"];
         public static SpriteFont UI { get; } = ContentService.Instance.Fonts["InGameFont"];
         public static SpriteFont Small { get; } = ContentService.Instance.Fonts["DetailFont"];
+        public static SpriteFont Tile { get; } = ContentService.Instance.Fonts["TileFont"];
 
     }
 }

@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using StrategyGame.Managers;
 
-namespace StrategyGame.GUI
+namespace StrategyGame.Core
 {
-    class Panel : GameObject
+    public class Panel : GameObject
     {
         public int BorderWidth { get; private set; }
         private Color borderColor;
