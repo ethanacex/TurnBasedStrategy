@@ -1,16 +1,21 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+
 using StrategyGame.Managers;
-using System;
 using StrategyGame.Core;
+using StrategyGame.Media;
 
 namespace StrategyGame.GUI
 {
     public class Button : GameObject
     {
         private Color defaultTextColor;
+        private bool clicked;
         public Label Label { get; set; }
+        public Effect ClickEffect { get; set; }
         public SoundEffect Hover { get; set; }
         public SoundEffect Click { get; set; }
         public Color DefaultLabelColor { get { return defaultTextColor; } set { defaultTextColor = value; Label.Color = value; } }
@@ -25,6 +30,7 @@ namespace StrategyGame.GUI
             Texture = texture;
             defaultTextColor = Label.Color;
             ToggleHighlight = true;
+            clicked = false;
         }
 
         public Button(string text, int x, int y, SpriteFont font)
@@ -34,15 +40,17 @@ namespace StrategyGame.GUI
             Texture = GraphicsManager.GetTextureOfColor(Settings.BackdropColor);
             DefaultLabelColor = Settings.TextColor;
             ToggleHighlight = false;
+            clicked = false;
         }
 
         // This constructor of Button is used as an invisible clickable overlay area for a pre-rendered UI button texture
         public Button(int x, int y)
         {
             Bounds = new Rectangle(new Point(x, y), new Point(90, 90));
-            Texture = GraphicsManager.GetTextureOfColor(Color.Transparent);
+            Texture = Textures.Transparent;
             defaultTextColor = Settings.TextColor;
             ToggleHighlight = false;
+            clicked = false;
         }
 
         private void HoverSound()
@@ -67,7 +75,6 @@ namespace StrategyGame.GUI
 
         public override void Update(GameTime gameTime)
         {
-
             if (Bounds.Contains(Input.CurrentMousePosition))
             {
                 if (ToggleHighlight)
@@ -76,28 +83,38 @@ namespace StrategyGame.GUI
 
                 if (!Bounds.Contains(Input.PreviousMousePosition))
                     HoverSound();
+
                 if (Input.LeftButtonClicked())
+                {
                     OnButtonPressed();
+                    clicked = true;
+                }
             }
             else
             {
                 if (Label != null)
                     Label.Color = DefaultLabelColor;
             }
-
         }
 
         public override void Draw(SpriteBatch sb)
         {
+            sb.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            if (clicked && ClickEffect != null)
+                ClickEffect.CurrentTechnique.Passes[0].Apply();
+
+            // Discard clicked value only once it has been used
+            clicked = false;
+
             if (Texture == null)
-            {
                 Texture = new Texture2D(sb.GraphicsDevice, Bounds.Width, Bounds.Height);
-            }
+
             sb.Draw(Texture, Bounds, Color.White);
+            sb.End();
+
             if (Label != null)
-            {
                 Label.Draw(sb);
-            }
         }
     }
 }

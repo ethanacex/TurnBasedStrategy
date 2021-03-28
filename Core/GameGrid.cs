@@ -8,14 +8,23 @@ namespace StrategyGame.Core
     public class GameGrid : GameObject
     {
         private Tile[,] _tiles;
+        private Point _position;
+        private Point _gridSize;
 
-        public void Initialize(Texture2D levelScene)
+        public void Initialize(Point location, Texture2D levelScene)
         {
-            Point gridSize = new Point(Settings.GridWidth, Settings.GridHeight);
+            Texture = levelScene;
+            _position = location;
+            _gridSize = new Point(Settings.GridWidth, Settings.GridHeight);
 
-            Bounds = new Rectangle(Settings.GridPosition, gridSize);
+            Bounds = new Rectangle(location, _gridSize);
             _tiles = new Tile[Settings.GridColumns, Settings.GridRows];
 
+            InitTiles();
+        }
+
+        private void InitTiles()
+        {
             Point tilePosition;
             int counter = 0;
             for (int y = 0; y < Settings.GridRows; y++)
@@ -29,8 +38,16 @@ namespace StrategyGame.Core
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var tile in _tiles)
-                tile.Update(gameTime);
+            if (Settings.GridPosition != _position)
+            {
+                Bounds = new Rectangle(Settings.GridPosition, _gridSize);
+                Initialize(Settings.GridPosition, Texture);
+            }
+            else
+            {
+                foreach (var tile in _tiles)
+                    tile.Update(gameTime);
+            }
         }
 
         public override void Draw(SpriteBatch sb)

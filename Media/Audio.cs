@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System;
+
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+
 using StrategyGame.Managers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StrategyGame.Media
 {
@@ -26,19 +26,22 @@ namespace StrategyGame.Media
                 MediaPlayer.IsRepeating = true;
             }
             else
-                MediaPlayer.Pause();
+                MediaPlayer.Stop();
         }
 
         public static void GameMusic(object source, EventArgs args)
         {
-            if (!GameState.MenuIsActive)
+            if (GameState.GameIsActive)
             {
                 ToggleMusic(source, args);
-                MediaPlayer.Play(MainTheme);
+                MediaPlayer.Play(MainTheme, GameState.GameTrackPosition);
                 MediaPlayer.IsRepeating = true;
             }
             else
-                MediaPlayer.Pause();
+            {
+                GameState.GameTrackPosition = MediaPlayer.PlayPosition;
+                MediaPlayer.Stop();
+            }
         }
 
         public static void ToggleMusic(object source, EventArgs args)

@@ -54,20 +54,20 @@ namespace StrategyGame.Screens
             exitGameBtn.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch sb)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(GraphicsManager.GetTextureOfColor(Settings.BackdropColor), GraphicsManager.Viewport.Bounds, Settings.TextureColor);
-            spriteBatch.Draw(Textures.Logo, logoPosition, Settings.TextureColor);
-            newGameBtn.Draw(spriteBatch);
-            optionsBtn.Draw(spriteBatch);
-            exitGameBtn.Draw(spriteBatch);
-            spriteBatch.End();
+            sb.Begin();
+            sb.Draw(GraphicsManager.GetTextureOfColor(Settings.BackdropColor), GraphicsManager.Viewport.Bounds, Settings.TextureColor);
+            sb.Draw(Textures.Logo, logoPosition, Settings.TextureColor);
+            sb.End();
+            newGameBtn.Draw(sb);
+            optionsBtn.Draw(sb);
+            exitGameBtn.Draw(sb);
         }
 
         private Button CreateButton(string title, int x, int y)
         {
-            return new Button(title, x, y, Textures.Empty);
+            return new Button(title, x, y, Textures.Black);
         }
 
         private Button CreateCenterAlignedButton(string title, int x, int y)

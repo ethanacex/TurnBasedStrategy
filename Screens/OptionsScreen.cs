@@ -108,27 +108,26 @@ namespace StrategyGame.Managers
             backButton.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch sb)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(GraphicsManager.GetTextureOfColor(Settings.BackdropColor), GraphicsManager.Viewport.Bounds, Color.White);
-            
-            screenTitle.Draw(spriteBatch);
-            backButton.Draw(spriteBatch);
+            sb.Begin();
+            sb.Draw(GraphicsManager.GetTextureOfColor(Settings.BackdropColor), GraphicsManager.Viewport.Bounds, Color.White);
+            sb.End();
+
+            screenTitle.Draw(sb);
+            backButton.Draw(sb);
 
             if (inSubmenu)
                 foreach (var button in subMenuButtons)
-                    button.Draw(spriteBatch);
+                    button.Draw(sb);
             else
                 foreach (var button in optionsMenuButtons)
-                    button.Draw(spriteBatch);
-
-            spriteBatch.End();
+                    button.Draw(sb);
         }
 
         public Button CreateButton(string title, int x, int y)
         {
-            return new Button(title, x, y, Textures.Empty);
+            return new Button(title, x, y, Textures.Black);
         }
 
         public Button CreateCenterAlignedButton(string title, int x, int y)

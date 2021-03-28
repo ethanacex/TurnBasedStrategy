@@ -20,6 +20,7 @@ namespace StrategyGame.Managers
         public Dictionary<string, SpriteFont> Fonts { get; private set; }
         public Dictionary<string, SoundEffect> SFX { get; private set; }
         public Dictionary<string, Song> Music { get; private set; }
+        public Dictionary<string, Effect> Effects { get; private set; }
 
         private ContentService()
         {
@@ -27,6 +28,7 @@ namespace StrategyGame.Managers
             Fonts = new Dictionary<string, SpriteFont>();
             Music = new Dictionary<string, Song>();
             SFX = new Dictionary<string, SoundEffect>();
+            Effects = new Dictionary<string, Effect>();
         }
 
         public void LoadContent(ContentManager Content, GraphicsDevice graphics)
@@ -43,7 +45,8 @@ namespace StrategyGame.Managers
             Fonts.Add("DetailFont", detailFont);
             Fonts.Add("TileFont", tileFont);
 
-            Texture2D empty = _content.Load<Texture2D>("Textures/emptyblack");
+            Texture2D transparent = GraphicsManager.GetTextureOfColor(Color.Transparent);
+            Texture2D black = _content.Load<Texture2D>("Textures/emptyblack");
             Texture2D test = _content.Load<Texture2D>("Textures/test");
             Texture2D red = _content.Load<Texture2D>("Textures/testred");
             Texture2D logo = _content.Load<Texture2D>("Textures/logo");
@@ -51,11 +54,12 @@ namespace StrategyGame.Managers
             Texture2D worldmap = _content.Load<Texture2D>("Textures/worldmap");
             Texture2D worldmap2 = _content.Load<Texture2D>("Textures/worldmap2");
             Texture2D dPad = _content.Load<Texture2D>("Textures/dPad");
+            Textures.Add("Empty", transparent);
             Textures.Add("Test", test);
             Textures.Add("Mine", mine);
             Textures.Add("TestRed", red);
             Textures.Add("Logo", logo);
-            Textures.Add("EmptyBlack", empty);
+            Textures.Add("Black", black);
             Textures.Add("WorldMap", worldmap);
             Textures.Add("WorldMap2", worldmap2);
             Textures.Add("DPad", dPad);
@@ -73,6 +77,9 @@ namespace StrategyGame.Managers
             Song mainTheme = _content.Load<Song>("Audio/mainBattleTheme");
             Music.Add("MenuTheme", menuMusic);
             Music.Add("MainTheme", mainTheme);
+
+            Effect dPadClick = _content.Load<Effect>("Effects/DPadClick");
+            Effects.Add("DPadClick", dPadClick);
 
             GameState.AllowMusicHandler += Audio.ToggleMusic;
             GameState.MainMenuHandler += Audio.MenuMusic;

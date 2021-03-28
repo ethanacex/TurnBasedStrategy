@@ -17,7 +17,7 @@ namespace StrategyGame.GUI
             Body = body;
             Font = Fonts.MenuFont;
             Color = Settings.TextColor;
-            Texture = Textures.Empty;
+            Texture = Textures.Black;
 
             Bounds = new Rectangle(position.ToPoint(), Font.MeasureString(Body).ToPoint());
         }
@@ -27,7 +27,7 @@ namespace StrategyGame.GUI
             Body = body;
             Font = font;
             Color = color;
-            Texture = Textures.Empty;
+            Texture = Textures.Black;
 
             Bounds = new Rectangle(position.ToPoint(), Font.MeasureString(Body).ToPoint());
         }
@@ -44,8 +44,10 @@ namespace StrategyGame.GUI
 
         public override void Draw(SpriteBatch sb)
         {
+            sb.Begin();
             sb.Draw(Texture, Bounds, Settings.TextureColor);
             sb.DrawString(Font, Body, Bounds.Location.ToVector2(), Color);
+            sb.End();
         }
     }
 }

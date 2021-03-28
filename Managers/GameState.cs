@@ -10,8 +10,8 @@ namespace StrategyGame.Managers
         private static bool gameIsRunning = false;
         private static bool gameIsActive = false;
         private static bool debugMode = false;
-        private static bool allowMusic = false;
-        private static bool allowSFX = false;
+        private static bool allowMusic = true;
+        private static bool allowSFX = true;
         private static bool windowInFocus = true;
         private static bool toggleGridLines = true;
         private static bool isFullScreen = false;
@@ -19,6 +19,7 @@ namespace StrategyGame.Managers
         private static bool isHighRes = true;
 
         private static PlayerTurn currentTurn = PlayerTurn.Blue;
+        public static TimeSpan GameTrackPosition { get; internal set; } = TimeSpan.Zero;
 
         public static event EventHandler<EventArgs> MainMenuHandler;
         public static event EventHandler<EventArgs> InGameHandler;
@@ -252,5 +253,6 @@ namespace StrategyGame.Managers
                 }
             }
         }
+
     }
 }

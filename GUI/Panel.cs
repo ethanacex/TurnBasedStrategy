@@ -23,14 +23,15 @@ namespace StrategyGame.Core
 
         public override void Draw(SpriteBatch sb)
         {
-
+            sb.Begin();
             if (Texture == null)
                 sb.Draw(GraphicsManager.GetTextureOfColor(Settings.BackdropColor), Bounds, Settings.TextureColor);
             else
                 sb.Draw(Texture, Bounds, Color.White);
-
+            sb.End();
             // Draw the panel bounding box
             GraphicsManager.DrawGameObjectBorder(sb, this, BorderWidth, borderColor);
+            
         }
 
         public override void Update(GameTime gameTime)

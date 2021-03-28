@@ -6,8 +6,8 @@ namespace StrategyGame.Managers
     {
         public static int TileWidth { get; } = 50;
         public static int TileHeight { get; } = 50;
-        public static int GridColumns { get; set; } = 100;
-        public static int GridRows { get; set; } = 85;
+        public static int GridColumns { get; set; } = 60;
+        public static int GridRows { get; set; } = 45;
         public static int GridWidth { get { return TileWidth * GridColumns; } }
         public static int GridHeight { get { return TileHeight * GridRows; } }
         public static int BorderWidth { get; } = 1;

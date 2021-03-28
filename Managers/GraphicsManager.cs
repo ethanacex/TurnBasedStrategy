@@ -59,6 +59,11 @@ namespace StrategyGame.Managers
             return texture;
         }
 
+        public static void MoveGameObject(GameObject go, Point location)
+        {
+            go.Bounds = new Rectangle(location, go.Bounds.Size);
+        }
+
         public static void SetGameObjectColor(GameObject go, Color color)
         {
             go.Texture = GetTextureOfColor(color);
@@ -110,10 +115,12 @@ namespace StrategyGame.Managers
         public static void DrawGameObjectBorder(SpriteBatch sb, GameObject go, int lineWidth, Color color)
         {
             Texture2D texture = GetTextureOfColor(color);
+            sb.Begin();
             sb.Draw(texture, new Rectangle(go.X, go.Y, lineWidth, go.Height + lineWidth), color);
             sb.Draw(texture, new Rectangle(go.X, go.Y, go.Width + lineWidth, lineWidth), color);
             sb.Draw(texture, new Rectangle(go.X + go.Width, go.Y, lineWidth, go.Height + lineWidth), color);
             sb.Draw(texture, new Rectangle(go.X, go.Y + go.Height, go.Width + lineWidth, lineWidth), color);
+            sb.End();
         }
 
     }

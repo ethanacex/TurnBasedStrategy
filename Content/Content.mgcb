@@ -49,6 +49,12 @@
 /processorParam:Quality=Best
 /build:Audio/superSuspense.mp3
 
+#begin Effects/DPadClick.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/DPadClick.fx
+
 #begin Fonts/fixedsys.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
