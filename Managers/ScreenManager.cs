@@ -26,11 +26,11 @@ namespace StrategyGame.Managers
             currentScreen = startScreen;
             if (currentScreen is GameScreen)
             {
-                GameState.IsOnMenuScreen = false;
                 GameState.GameIsRunning = true;
+                GameState.GameIsActive = true;
             }
             else
-                GameState.IsOnMenuScreen = true;
+                GameState.MenuIsActive = true;
         }
 
         public void PushScreen(IScreen screen)
@@ -106,12 +106,17 @@ namespace StrategyGame.Managers
 
         public void ToggleDebug(object sender, EventArgs e)
         {
-            GameState.DebugColorMode = !GameState.DebugColorMode;
+            GameState.DebugMode = !GameState.DebugMode;
         }
 
         public void ToggleMusic(object sender, EventArgs e)
         {
-            GameState.ToggleAudio = !GameState.ToggleAudio;
+            GameState.ToggleMusic = !GameState.ToggleMusic;
+        }
+
+        public void ToggleSFX(object sender, EventArgs e)
+        {
+            GameState.ToggleSFX = !GameState.ToggleSFX;
         }
 
         public void ExitGame(object source, EventArgs args)

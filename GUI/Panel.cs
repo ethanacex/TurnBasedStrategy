@@ -2,12 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using StrategyGame.Managers;
 
-namespace StrategyGame.GUI
+namespace StrategyGame.Core
 {
-    class Panel : GameObject
+    public class Panel : GameObject
     {
         public int BorderWidth { get; private set; }
-        private Color borderColor;
+        protected Color borderColor;
+
         public Panel(Point location, Point size)
         {
             Bounds = new Rectangle(location, size);
@@ -23,14 +24,15 @@ namespace StrategyGame.GUI
 
         public override void Draw(SpriteBatch sb)
         {
-
+            sb.Begin();
             if (Texture == null)
                 sb.Draw(GraphicsManager.GetTextureOfColor(Settings.BackdropColor), Bounds, Settings.TextureColor);
             else
                 sb.Draw(Texture, Bounds, Color.White);
-
+            sb.End();
             // Draw the panel bounding box
             GraphicsManager.DrawGameObjectBorder(sb, this, BorderWidth, borderColor);
+            
         }
 
         public override void Update(GameTime gameTime)

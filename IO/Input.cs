@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace StrategyGame
 {
@@ -47,5 +48,9 @@ namespace StrategyGame
             return CurrentKeyboardState.IsKeyDown(key) && !PreviousKeyboardState.IsKeyDown(key);
         }
 
+        public static bool KeyIsHeld(Keys key)
+        {
+            return CurrentKeyboardState.IsKeyDown(key) && PreviousKeyboardState.IsKeyDown(key);
+        }
     }
 }

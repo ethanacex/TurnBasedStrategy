@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StrategyGame.Media;
-using StrategyGame.GUI;
+using StrategyGame.Core;
 
-namespace StrategyGame.IO
+namespace StrategyGame.GUI
 {
     public class Label : GameObject
     {
@@ -17,7 +17,7 @@ namespace StrategyGame.IO
             Body = body;
             Font = Fonts.MenuFont;
             Color = Settings.TextColor;
-            Texture = Textures.Empty;
+            Texture = Textures.Black;
 
             Bounds = new Rectangle(position.ToPoint(), Font.MeasureString(Body).ToPoint());
         }
@@ -27,7 +27,7 @@ namespace StrategyGame.IO
             Body = body;
             Font = font;
             Color = color;
-            Texture = Textures.Empty;
+            Texture = Textures.Black;
 
             Bounds = new Rectangle(position.ToPoint(), Font.MeasureString(Body).ToPoint());
         }
@@ -44,8 +44,10 @@ namespace StrategyGame.IO
 
         public override void Draw(SpriteBatch sb)
         {
+            sb.Begin();
             sb.Draw(Texture, Bounds, Settings.TextureColor);
             sb.DrawString(Font, Body, Bounds.Location.ToVector2(), Color);
+            sb.End();
         }
     }
 }
