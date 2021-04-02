@@ -1,14 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+
 using StrategyGame.GUI;
 using StrategyGame.Managers;
 using StrategyGame.Media;
-using StrategyGame.Screens;
-using System;
+
 
 namespace StrategyGame.Core
 {
-    public class MapNav : GameObject
+    public class DirectionalPad : GameObject
     {
         private Texture2D navigation;
 
@@ -51,58 +54,89 @@ namespace StrategyGame.Core
 
         private void OnUpPressed()
         {
+            int y = Settings.GridPosition.Y;
+            if (y >= Settings.ViewFinder.Y)
+                return;
+            y += (Settings.NavigationDistance * Settings.TileHeight);
+            Settings.GridPosition = new Point(Settings.GridPosition.X, y);
             if (UpPressed != null)
                 UpPressed(this, EventArgs.Empty);
         }
 
         private void OnDownPressed()
         {
+            int y = Settings.GridPosition.Y;
+            if ((y + Settings.GridHeight) <= Settings.ViewFinder.Bottom)
+                return;
+            y -= (Settings.NavigationDistance * Settings.TileHeight);
+            Settings.GridPosition = new Point(Settings.GridPosition.X, y);
             if (DownPressed != null)
                 DownPressed(this, EventArgs.Empty);
         }
 
         private void OnLeftPressed()
         {
+            int x = Settings.GridPosition.X;
+            if (x >= Settings.ViewFinder.Left)
+                return;
+            x += (Settings.NavigationDistance * Settings.TileWidth);
+            Settings.GridPosition = new Point(x, Settings.GridPosition.Y);
             if (LeftPressed != null)
                 LeftPressed(this, EventArgs.Empty);
         }
 
         private void OnRightPressed()
         {
+            int x = Settings.GridPosition.X;
+            if ((x + Settings.GridWidth) <= Settings.ViewFinder.Right)
+                return;
+            x -= (Settings.NavigationDistance * Settings.TileWidth);
+            Settings.GridPosition = new Point(x, Settings.GridPosition.Y);
             if (RightPressed != null)
                 RightPressed(this, EventArgs.Empty);
         }
 
         private void NavigateRight(object sender, EventArgs e)
         {
-            int x = Settings.GridPosition.X;
-            x -= (2 * Settings.TileWidth);
-            Settings.GridPosition = new Point(x, Settings.GridPosition.Y);
             OnRightPressed();
         }
 
         private void NavigateLeft(object sender, EventArgs e)
         {
-            int x = Settings.GridPosition.X;
-            x += (2 * Settings.TileWidth);
-            Settings.GridPosition = new Point(x, Settings.GridPosition.Y);
             OnLeftPressed();
         }
 
         private void NavigateDown(object sender, EventArgs e)
         {
-            int y = Settings.GridPosition.Y;
-            y -= (2 * Settings.TileHeight);
-            Settings.GridPosition = new Point(Settings.GridPosition.X, y);
             OnDownPressed();
         }
 
         private void NavigateUp(object sender, EventArgs e)
         {
-            int y = Settings.GridPosition.Y;
-            y += (2 * Settings.TileHeight);
-            Settings.GridPosition = new Point(Settings.GridPosition.X, y);
             OnUpPressed();
+        }
+
+        private void CheckForDirectionalInput()
+        {
+            if (Input.KeyIsPressed(Keys.W) || Input.KeyIsPressed(Keys.Up))
+                OnUpPressed();
+            if (Input.KeyIsPressed(Keys.A) || Input.KeyIsPressed(Keys.Left))
+                OnLeftPressed();
+            if (Input.KeyIsPressed(Keys.S) || Input.KeyIsPressed(Keys.Down))
+                OnDownPressed();
+            if (Input.KeyIsPressed(Keys.D) || Input.KeyIsPressed(Keys.Right))
+                OnRightPressed();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            CheckForDirectionalInput();
+
+            UpBtn.Update(gameTime);
+            DownBtn.Update(gameTime);
+            LeftBtn.Update(gameTime);
+            RightBtn.Update(gameTime);
+
         }
 
         public override void Draw(SpriteBatch sb)
@@ -123,14 +157,6 @@ namespace StrategyGame.Core
                 GraphicsManager.DrawGameObjectBorder(sb, LeftBtn, 3, Color.Red);
                 GraphicsManager.DrawGameObjectBorder(sb, RightBtn, 3, Color.Red);
             }
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            UpBtn.Update(gameTime);
-            DownBtn.Update(gameTime);
-            LeftBtn.Update(gameTime);
-            RightBtn.Update(gameTime);
         }
     }
 }

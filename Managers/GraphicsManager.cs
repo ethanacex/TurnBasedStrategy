@@ -16,7 +16,7 @@ namespace StrategyGame.Managers
             ResolutionChanged?.Invoke(null, EventArgs.Empty);
         }
 
-        private static GraphicsDevice Graphics { get; } = ContentService.Instance.Graphics;
+        public static GraphicsDevice GraphicsDevice { get; } = ContentService.Instance.Graphics;
 
         private static GraphicsDeviceManager GraphicsDeviceManager;
 
@@ -27,8 +27,8 @@ namespace StrategyGame.Managers
 
         internal static void ToggleFullscreen(object sender, EventArgs e)
         {
-            GraphicsDeviceManager.PreferredBackBufferWidth = Graphics.DisplayMode.Width;
-            GraphicsDeviceManager.PreferredBackBufferHeight = Graphics.DisplayMode.Height;
+            GraphicsDeviceManager.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            GraphicsDeviceManager.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             GraphicsDeviceManager.IsFullScreen = true;
             GraphicsDeviceManager.ApplyChanges();
             OnResolutionChanged();
@@ -54,7 +54,7 @@ namespace StrategyGame.Managers
 
         public static Texture2D GetTextureOfColor(Color color)
         {
-            Texture2D texture = new Texture2D(Graphics, 1, 1, false, SurfaceFormat.Color);
+            Texture2D texture = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             texture.SetData(new Color[] { color });
             return texture;
         }

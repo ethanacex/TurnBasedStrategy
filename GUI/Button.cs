@@ -62,6 +62,14 @@ namespace StrategyGame.GUI
             }
         }
 
+        // Programmatically press this button
+        // This could later allow the game to be played without a mouse
+        public void Press()
+        {
+            OnButtonPressed();
+            clicked = true;
+        }
+
         private void OnButtonPressed()
         {
             if (GameState.WindowInFocus)

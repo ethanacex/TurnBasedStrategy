@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using StrategyGame.Core;
 using StrategyGame.GUI;
 using StrategyGame.Managers;
@@ -30,12 +31,8 @@ namespace StrategyGame.Screens
         private Panel seperatorPanel;
         private Panel inspectorPanel;
         private Panel inspectorWindow;
-        private Panel miniNav;
         private Panel statusPanel;
         private Panel messagePanel;
-        private Panel messageLogPanel;
-        private Panel playerTurnPanel;
-        private Panel viewFinder;
 
         private Button inspectorButton;
         private Button mapButton;
@@ -43,9 +40,6 @@ namespace StrategyGame.Screens
         private Button mainMenuButton;
 
         private Label gameTitleLabel;
-        private Label playerTurnLabel;
-        private Label messageTitleLabel;
-        private Label messageLogLabel;
         private Label goldTextLabel;
         private Label goldValueLabel;
         private Label goldProductionLabel;
@@ -58,15 +52,15 @@ namespace StrategyGame.Screens
         private Label tileInfoStaticLabel;
         private Label tileInfoVariableLabel;
 
+        private MiniMap map;
         private GameGrid grid;
-        private MapNav dPad;
-
-        private Point miniNavDimensions;
-        private Point miniNavPosition;
+        private BattleLog messageLog;
+        private ViewFinder view;
+        private DirectionalPad dPad;
 
         private bool displayMap = false;
 
-        private void FlushScreenElements()
+        private void PurgeScreenElements()
         {
             screenElements = new List<GameObject>();
             mapPanelElements = new List<GameObject>();
@@ -75,7 +69,7 @@ namespace StrategyGame.Screens
         private void AddAllScreenElements()
         {
             // Draw panels first
-            screenElements.Add(viewFinder);
+            screenElements.Add(view);
             screenElements.Add(grid);
             screenElements.Add(topPanel);
             screenElements.Add(bottomPanel);
@@ -85,17 +79,13 @@ namespace StrategyGame.Screens
             screenElements.Add(seperatorPanel);
             screenElements.Add(messagePanel);
             screenElements.Add(inspectorPanel);
-            screenElements.Add(messageLogPanel);
-            screenElements.Add(playerTurnPanel);
+            screenElements.Add(messageLog);
             screenElements.Add(inspectorWindow);
 
             // Screen Elements
             if (!GameState.IsLowResolution)
                 screenElements.Add(gameTitleLabel);
 
-            screenElements.Add(messageTitleLabel);
-            screenElements.Add(playerTurnLabel);
-            screenElements.Add(messageLogLabel);
             screenElements.Add(inspectorButton);
             screenElements.Add(mapButton);
             screenElements.Add(goldTextLabel);
@@ -113,48 +103,42 @@ namespace StrategyGame.Screens
             screenElements.Add(mainMenuButton);
 
             // Map Panel Elements
-            mapPanelElements.Add(miniNav);
             mapPanelElements.Add(dPad);
+            mapPanelElements.Add(map);
         }
 
         private void InitViewFinder(InitType init)
         {
             // Get the rendered font height so we can position the ViewFinder below it
             Point labelSize = GraphicsManager.GetLabelDimensions("Units: 10");
-            Point viewPosition = new Point(gameArea.X, gameArea.Y + labelSize.Y);
+            Point position = new Point(gameArea.X, gameArea.Y + labelSize.Y);
 
-            if (GameState.IsLowResolution)
-            {
-                Settings.ViewFinderXPercent = 0.65;
-                Settings.ViewFinderYPercent = 0.55;
-            }
-            else
-            {
-                Settings.ViewFinderXPercent = 0.77;
-                Settings.ViewFinderYPercent = 0.66;
-            }
+            Settings.ViewFinderXPercent = GameState.IsLowResolution ? 0.65 : 0.77;
+            Settings.ViewFinderYPercent = GameState.IsLowResolution ? 0.55 : 0.66;
 
-            viewFinder = new Panel(viewPosition, new Point((int)(screen.Width * Settings.ViewFinderXPercent), (int)(screen.Height * Settings.ViewFinderYPercent)));
-            viewFinder.Texture = Textures.Black;
+            Point size = new Point((int)(screen.Width * Settings.ViewFinderXPercent), (int)(screen.Height * Settings.ViewFinderYPercent));
 
-            // Update ViewFinder dimensions in Settings so that other classes can query
-            Settings.ViewFinder = viewFinder.Bounds;
+            view = new ViewFinder(position, size);
+            view.SetMainView();
 
             // If only updating this panel, we need to refresh the elements list here
             if (init == InitType.Isolated)
             {
-                FlushScreenElements();
+                PurgeScreenElements();
                 AddAllScreenElements();
             }
         }
 
         private void InitGrid()
         {
+            // For now the level will be plain 'grass' this should be swappable dynamically later
+            Texture2D grass = GraphicsManager.GetTextureOfColor(Color.Green);
+
             // Do not create a new instance of grid if one already exists
             if (grid == null)
             {
                 grid = new GameGrid();
-                grid.Initialize(Settings.GridPosition, Textures.Transparent);
+                grid.Initialize(grass);
             }
         }
 
@@ -166,23 +150,23 @@ namespace StrategyGame.Screens
             leftPanel = new Panel(new Point(topPanel.Left, topPanel.Bottom), new Point(marginX, screen.Height - (topPanel.Height + bottomPanel.Height)));
             rightPanel = new Panel(new Point(topPanel.Right - marginX, topPanel.Bottom), new Point(marginX, screen.Height - (topPanel.Height + bottomPanel.Height)));
 
-            statusPanel = new Panel(new Point(gameArea.X, gameArea.Y), new Point(viewFinder.Width, viewFinder.Top - gameArea.Y));
-            messagePanel = new Panel(new Point(gameArea.X, viewFinder.Bottom), new Point(viewFinder.Width, gameArea.Height - (viewFinder.Height + statusPanel.Height)));
-            messageLogPanel = new Panel(new Point(messagePanel.X + 1, messagePanel.Y + 25), new Point(messagePanel.Width - 3, messagePanel.Height - 40));
-            seperatorPanel = new Panel(new Point(viewFinder.Right, gameArea.Y), new Point(25, gameArea.Height));
+            statusPanel = new Panel(new Point(gameArea.X, gameArea.Y), new Point(view.Width, view.Top - gameArea.Y));
+            messagePanel = new Panel(new Point(gameArea.X, view.Bottom), new Point(view.Width, gameArea.Height - (view.Height + statusPanel.Height)));
+            messageLog = new BattleLog(new Point(messagePanel.X + 1, messagePanel.Y + 25), new Point(messagePanel.Width - 3, messagePanel.Height - 40));
+            seperatorPanel = new Panel(new Point(view.Right, gameArea.Y), new Point(25, gameArea.Height));
 
-            inspectorPanel = new Panel(new Point(seperatorPanel.Right, gameArea.Y), new Point(gameArea.Width - (viewFinder.Width + seperatorPanel.Width), gameArea.Height));
-            inspectorWindow = new Panel(new Point(inspectorPanel.X, viewFinder.Y), new Point(350, 300));
+            inspectorPanel = new Panel(new Point(seperatorPanel.Right, gameArea.Y), new Point(gameArea.Width - (view.Width + seperatorPanel.Width), gameArea.Height));
+            inspectorWindow = new Panel(new Point(inspectorPanel.X, view.Y), new Point(350, 300));
             GraphicsManager.CenterObjectOnPanel(inspectorWindow, inspectorPanel);
 
-            messageLogPanel.SetCustomBorder(3, Color.White);
-            inspectorWindow.SetCustomBorder(3, Color.White);
-            inspectorWindow.Texture = Textures.Transparent;
+            messageLog.Initialize();
+
+            GameState.NavigationFramePosition = inspectorWindow.Bounds.Location;
 
             // If only updating this panel, we need to refresh the elements list here
             if (init == InitType.Isolated)
             {
-                FlushScreenElements();
+                PurgeScreenElements();
                 AddAllScreenElements();
             }
         }
@@ -203,7 +187,7 @@ namespace StrategyGame.Screens
             // If only updating this panel, we need to refresh the elements list here
             if (init == InitType.Isolated)
             {
-                FlushScreenElements();
+                PurgeScreenElements();
                 AddAllScreenElements();
             }
         }
@@ -224,38 +208,34 @@ namespace StrategyGame.Screens
             endTurnButton = new Button("EndTurn", inspectorWindow.Right - labelSize.X, inspectorPanel.Bottom - labelSize.Y, Fonts.UI);
             endTurnButton.DefaultLabelColor = Color.Yellow;
             endTurnButton.Click = Audio.MenuForward;
-            endTurnButton.ButtonPressed += SwitchTurns;
+            endTurnButton.ButtonPressed += messageLog.UpdatePlayerTurnLabel;
 
             mainMenuButton = new Button("Menu", inspectorWindow.Left, inspectorPanel.Bottom - labelSize.Y, Fonts.UI);
             mainMenuButton.DefaultLabelColor = Color.Yellow;
             mainMenuButton.Click = Audio.MenuForward;
             mainMenuButton.ButtonPressed += MainMenu;
 
-            // Calculate current screen resolution in ratio to the grid so mini-viewFinder size can be calculated
-            var ratioWidth = (double)screen.Width / Settings.GridWidth;
-            var ratioHeight = (double)screen.Height / Settings.GridHeight;
-            miniNavDimensions = new Point((int)(inspectorWindow.Width * ratioWidth), (int)(inspectorWindow.Height * ratioHeight));
-            miniNavPosition = new Point(inspectorWindow.Bounds.Center.X - (miniNavDimensions.X / 2), inspectorWindow.Bottom - miniNavDimensions.Y);
+            map = new MiniMap(inspectorWindow.Bounds.Location, inspectorWindow.Bounds.Size);
+            grid.MapUpdated += map.UpdatePreview;
+
+            dPad = new DirectionalPad();
+            var dPadMargin = GameState.IsLowResolution ? 10 : 100;
+            dPad.Initialize(new Point(inspectorWindow.Left, inspectorWindow.Bottom + dPadMargin));
+
+            // Subscribe minimap to movement events
+            dPad.UpPressed += map.NavigateUp;
+            dPad.DownPressed += map.NavigateDown;
+            dPad.LeftPressed += map.NavigateLeft;
+            dPad.RightPressed += map.NavigateRight;
 
             if (displayMap)
             {
+                inspectorWindow.Texture = Textures.Transparent;
+                inspectorWindow.SetCustomBorder(0, Color.Transparent);
+
+                map.Initialize(grid.GameWorld);
                 mapButton.DefaultLabelColor = Color.White;
                 inspectorButton.DefaultLabelColor = Color.DimGray;
-
-                inspectorWindow.Texture = GraphicsManager.GetTextureOfColor(Color.Green);
-                miniNav = new Panel(miniNavPosition, miniNavDimensions);
-                miniNav.Texture = Textures.Transparent;
-                miniNav.SetCustomBorder(3, Color.Red);
-
-                dPad = new MapNav();
-                var dPadMargin = GameState.IsLowResolution ? 10 : 100;
-                dPad.Initialize(new Point(inspectorWindow.Left, inspectorWindow.Bottom + dPadMargin));
-
-                // Subscribe to button presses
-                dPad.UpPressed += NavigateUp;
-                dPad.DownPressed += NavigateDown;
-                dPad.LeftPressed += NavigateLeft;
-                dPad.RightPressed += NavigateRight;
 
                 selectedStaticLabel = new Label("", Vector2.Zero);
                 selectedVariableLabel = new Label("", Vector2.Zero);
@@ -268,6 +248,7 @@ namespace StrategyGame.Screens
             }
             else
             {
+                inspectorWindow.SetCustomBorder(3, Color.White);
                 mapButton.DefaultLabelColor = Color.DimGray;
                 inspectorButton.DefaultLabelColor = Color.White;
 
@@ -287,60 +268,18 @@ namespace StrategyGame.Screens
             // If only updating this panel, we need to refresh the elements list here
             if (init == InitType.Isolated)
             {
-                FlushScreenElements();
+                PurgeScreenElements();
                 AddAllScreenElements();
             }
         }
 
-        private void NavigateRight(object sender, EventArgs e)
-        {
-            miniNavPosition.X += 2;
-            GraphicsManager.MoveGameObject(miniNav, miniNavPosition);
-        }
-
-        private void NavigateLeft(object sender, EventArgs e)
-        {
-            miniNavPosition.X -= 2;
-            GraphicsManager.MoveGameObject(miniNav, miniNavPosition);
-        }
-
-        private void NavigateDown(object sender, EventArgs e)
-        {
-            miniNavPosition.Y += 2;
-            GraphicsManager.MoveGameObject(miniNav, miniNavPosition);
-        }
-
-        private void NavigateUp(object sender, EventArgs e)
-        {
-            miniNavPosition.Y -= 2;
-            GraphicsManager.MoveGameObject(miniNav, miniNavPosition);
-        }
-
-        private void InitMessagePanel(InitType init)
-        {
-            Point labelSize;
-            messageTitleLabel = new Label(" Message Log: ", new Vector2(messagePanel.Left + 20, messagePanel.Y + 10), Fonts.Small, Color.Cyan);
-            messageLogLabel = new Label("This is an example battle log entry", new Vector2(messagePanel.Left + 20, messageTitleLabel.Bottom + 10), Fonts.Small, Color.White);
-
-            labelSize = Fonts.Small.MeasureString(" Blue's Turn ").ToPoint();
-            playerTurnPanel = new Panel(new Point(messagePanel.Right - (labelSize.X + 20), messageTitleLabel.Y), labelSize);
-            labelSize = Fonts.Small.MeasureString(" " + GameState.CurrentPlayerName + "s Turn ").ToPoint();
-            playerTurnLabel = new Label(" " + GameState.CurrentPlayerName + "s Turn ", new Vector2(playerTurnPanel.Bounds.Center.X - (labelSize.X / 2), messageTitleLabel.Y), Fonts.Small, GameState.CurrentPlayerColor);
-
-            // If only updating this panel, we need to refresh the elements list here
-            if (init == InitType.Isolated)
-            {
-                FlushScreenElements();
-                AddAllScreenElements();
-            }
-        }
 
         public void Initialize(ScreenManager screenManager)
         {
             this.screenManager = screenManager;
 
             screen = GraphicsManager.Viewport;
-            FlushScreenElements();
+            PurgeScreenElements();
 
             // Subscribe to changes in resolution
             GraphicsManager.ResolutionChanged += Reinitialize;
@@ -350,16 +289,12 @@ namespace StrategyGame.Screens
             marginY = (int)(screen.Height * 0.01);
             gameArea = new Panel(new Point(screen.X + marginX, screen.Y + marginY), new Point(screen.Width - (marginX * 2), screen.Height - (marginY * 2)));
 
-            // Grid should be positioned in the center of the viewfinder at first launch
-            Settings.GridPosition = new Point(0 - (Settings.GridWidth / 2), 0 - (Settings.GridHeight / 2));
-
             // We do not want each init function to update the list elements until all functions are complete
             InitViewFinder(InitType.Full);
             InitGrid();
             InitScreenRegions(InitType.Full);
             InitStatusBar(InitType.Full);
             InitInspectorPanel(InitType.Full);
-            InitMessagePanel(InitType.Full);
 
             AddAllScreenElements();
         }
@@ -386,17 +321,6 @@ namespace StrategyGame.Screens
             Initialize(screenManager);
         }
 
-        public void SwitchTurns(object sender, EventArgs e)
-        {
-            switch (GameState.CurrentPlayer)
-            {
-                case PlayerTurn.Blue: GameState.CurrentPlayer = PlayerTurn.Red; break;
-                case PlayerTurn.Red: GameState.CurrentPlayer = PlayerTurn.Blue; break;
-                default: break;
-            }
-            InitMessagePanel(InitType.Isolated);
-        }
-
         public void Update(GameTime gameTime)
         {
             foreach (var element in screenElements)
@@ -404,6 +328,10 @@ namespace StrategyGame.Screens
             if (displayMap)
                 foreach (var element in mapPanelElements)
                     element.Update(gameTime);
+
+            // DPad always needs to update, but only if it has not been updated already
+            else
+                dPad.Update(gameTime);
         }
 
         public void Draw(SpriteBatch sb)

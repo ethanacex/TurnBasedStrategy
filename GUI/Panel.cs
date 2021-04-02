@@ -7,7 +7,8 @@ namespace StrategyGame.Core
     public class Panel : GameObject
     {
         public int BorderWidth { get; private set; }
-        private Color borderColor;
+        protected Color borderColor;
+
         public Panel(Point location, Point size)
         {
             Bounds = new Rectangle(location, size);

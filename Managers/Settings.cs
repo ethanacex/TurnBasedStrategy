@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StrategyGame.Core;
 
 namespace StrategyGame.Managers
 {
@@ -6,13 +7,14 @@ namespace StrategyGame.Managers
     {
         public static int TileWidth { get; } = 50;
         public static int TileHeight { get; } = 50;
-        public static int GridColumns { get; set; } = 60;
-        public static int GridRows { get; set; } = 45;
+        public static int GridColumns { get; set; } = 70;
+        public static int GridRows { get; set; } = 60;
         public static int GridWidth { get { return TileWidth * GridColumns; } }
         public static int GridHeight { get { return TileHeight * GridRows; } }
         public static int BorderWidth { get; } = 1;
+        public static int NavigationDistance { get; } = 2;
 
-        public static Point GridPosition { get; set; } = new Point(50, 50);
+        public static Point GridPosition { get; set; } = Point.Zero;
         public static Color TextureColor { get; } = Color.White;
         public static Color BorderColor { get; set; } = Color.Black;
         public static Color BackdropColor { get; set; } = Color.Black;
@@ -23,7 +25,7 @@ namespace StrategyGame.Managers
 
         public static double ViewFinderXPercent { get; set; } = 0.65;
         public static double ViewFinderYPercent { get; set; } = 0.55;
-        public static Rectangle ViewFinder { get; set; }
+        public static ViewFinder ViewFinder { get; set; }
 
     }
 }

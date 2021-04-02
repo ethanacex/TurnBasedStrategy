@@ -20,6 +20,7 @@ namespace StrategyGame.Managers
 
         private static PlayerTurn currentTurn = PlayerTurn.Blue;
         public static TimeSpan GameTrackPosition { get; internal set; } = TimeSpan.Zero;
+        public static Point NavigationFramePosition { get; set; }
 
         public static event EventHandler<EventArgs> MainMenuHandler;
         public static event EventHandler<EventArgs> InGameHandler;
@@ -32,6 +33,7 @@ namespace StrategyGame.Managers
         public static event EventHandler<EventArgs> LowResEventHandler;
         public static event EventHandler<EventArgs> HighResEventHandler;
         public static event EventHandler<EventArgs> PlayerTurnChangedHandler;
+        public static event EventHandler<EventArgs> TurnChangedHandler;
 
         public static PlayerTurn CurrentPlayer
         {
@@ -252,6 +254,18 @@ namespace StrategyGame.Managers
                         LowResEventHandler(isLowRes, EventArgs.Empty);
                 }
             }
+        }
+
+        public static void SwitchTurns()
+        {
+            switch (CurrentPlayer)
+            {
+                case PlayerTurn.Blue: CurrentPlayer = PlayerTurn.Red; break;
+                case PlayerTurn.Red: CurrentPlayer = PlayerTurn.Blue; break;
+                default: break;
+            }
+            if (TurnChangedHandler != null)
+                TurnChangedHandler(null, EventArgs.Empty);
         }
 
     }
