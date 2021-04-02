@@ -1,0 +1,21 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/obj/Debug/netcoreapp3.1
+/.vs/StrategyGame/v16
+/.gitignore
+/bin/Debug/netcoreapp3.1
+/bin/Debug/netcoreapp3.1
+/bin/Debug/netcoreapp3.1
+/bin/Debug/netcoreapp3.1
+/obj
+/bin
+/Content/bin
+/Content/obj
+/Content/obj/DesktopGL/Content
+/.vs/StrategyGame/DesignTimeBuild
+/Content/bin/DesktopGL/Content
+/Content/bin/DesktopGL/Content
+/Content/bin/DesktopGL
+/Content/obj/DesktopGL
