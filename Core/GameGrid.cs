@@ -125,17 +125,5 @@ namespace StrategyGame.Core
                 tile.Draw(sb);
         }
 
-        public void ToggleVisibleBorder() => GameState.ToggleGridLines = !GameState.ToggleGridLines;
-
-        private bool MouseOnGrid()
-        {
-            return Bounds.Contains(Input.CurrentMousePosition) && Bounds.Contains(Input.PreviousMousePosition);
-        }
-
-        private bool MouseIntersectsArea(Point point)
-        {
-            return Bounds.Contains(point);
-        }
-
     }
 }
