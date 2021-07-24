@@ -35,6 +35,7 @@ namespace StrategyGame.Core
 
         public override void Update(GameTime gameTime)
         {
+            // if mouse is on tile and tile is visible
             if (Bounds.Contains(Input.CurrentMousePosition))
                 highlight = true;
             else

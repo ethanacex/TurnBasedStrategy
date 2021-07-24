@@ -54,7 +54,7 @@ namespace StrategyGame.Screens
 
         private MiniMap map;
         private GameGrid grid;
-        private BattleLog messageLog;
+        private Battlelog messageLog;
         private ViewFinder view;
         private DirectionalPad dPad;
 
@@ -152,7 +152,7 @@ namespace StrategyGame.Screens
 
             statusPanel = new Panel(new Point(gameArea.X, gameArea.Y), new Point(view.Width, view.Top - gameArea.Y));
             messagePanel = new Panel(new Point(gameArea.X, view.Bottom), new Point(view.Width, gameArea.Height - (view.Height + statusPanel.Height)));
-            messageLog = new BattleLog(new Point(messagePanel.X + 1, messagePanel.Y + 25), new Point(messagePanel.Width - 3, messagePanel.Height - 40));
+            messageLog = new Battlelog(new Point(messagePanel.X + 1, messagePanel.Y + 25), new Point(messagePanel.Width - 3, messagePanel.Height - 40));
             seperatorPanel = new Panel(new Point(view.Right, gameArea.Y), new Point(25, gameArea.Height));
 
             inspectorPanel = new Panel(new Point(seperatorPanel.Right, gameArea.Y), new Point(gameArea.Width - (view.Width + seperatorPanel.Width), gameArea.Height));

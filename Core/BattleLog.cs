@@ -10,7 +10,7 @@ using StrategyGame.Media;
 
 namespace StrategyGame.Core
 {
-    public class BattleLog : Panel
+    public class Battlelog : Panel
     {
         public List<string> Log { get; set; }
 
@@ -23,7 +23,7 @@ namespace StrategyGame.Core
 
         private bool logUpdated;
 
-        public BattleLog(Point location, Point size) : base(location, size)
+        public Battlelog(Point location, Point size) : base(location, size)
         {
             Log = new List<string>();
             sb = new StringBuilder();
